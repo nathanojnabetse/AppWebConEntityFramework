@@ -1,0 +1,29 @@
+﻿@using AppWebTest.Models
+@model List<SucursalCLS>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>View</h2>
+
+<table class=" table table-bordered table-hover">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].idsucursal)</td>
+            <td>@Html.LabelFor(p => Model[0].nombre)</td>
+            <td>@Html.LabelFor(p => Model[0].teléfono)</td>
+            <td>@Html.LabelFor(p => Model[0].email)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.idsucursal</td>
+                <td>@item.nombre</td>
+                <td>@item.teléfono</td>
+                <td>@item.email</td>
+            </tr>
+         }
+    </tbody>
+</table>

@@ -1,0 +1,34 @@
+﻿@using AppWebTest.Models
+@model List<ClienteCLS>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table table-hover table-responsive table-bordered">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].idCliente)</td>
+            <td>@Html.LabelFor(p => Model[0].nombre)</td>
+            <td>@Html.LabelFor(p => Model[0].apmaterno)</td>
+            <td>@Html.LabelFor(p => Model[0].apmaterno)</td>
+            <td>@Html.LabelFor(p => Model[0].telefonoFijo)</td>
+        </tr>
+    </thead>
+    <tbody>
+
+       @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.idCliente</td>
+                <td>@item.nombre</td>
+                <td>@item.appaterneno</td>
+                <td>@item.apmaterno</td>
+                <td>@item.telefonoFijo</td>
+            </tr>
+        }
+
+        </tbody>
+
+</table>
