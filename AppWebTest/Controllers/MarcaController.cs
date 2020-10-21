@@ -27,5 +27,40 @@ namespace AppWebTest.Controllers
             }
          return View(listaMarca);
         }
+
+        //Genera la vista html
+        public ActionResult Agregar()
+        {
+            return View();
+        }
+
+        //Hacer la insercion de datos por  medio del metodo post (Html.BEgin form) Agregar.csHtml
+        [HttpPost]
+        public ActionResult Agregar(MarcaCLS oMarcaCLS)//Recivbe el modelo
+        {
+            if(!ModelState.IsValid)
+            {
+                Console.WriteLine("no es valido");
+                return View(oMarcaCLS);
+                
+            }
+            else
+            {
+                Console.WriteLine("es valido");
+                using (var bd = new BDPasajeEntities())
+                {
+
+                    //MArca sin cls es de Entity, el CLS es que yo cree
+                    Marca oMarca = new Marca();
+                    oMarca.NOMBRE = oMarcaCLS.nombre;
+                    oMarca.DESCRIPCION = oMarcaCLS.descripcion;
+                    oMarca.BHABILITADO = 1;
+                    bd.Marca.Add(oMarca);
+                    bd.SaveChanges();
+                }                
+            }
+            return RedirectToAction("Index");
+        }
+        
     }
 }
