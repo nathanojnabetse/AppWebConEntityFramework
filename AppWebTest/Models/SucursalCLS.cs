@@ -22,7 +22,7 @@ namespace AppWebTest.Models
         public string telefono { get; set; }
         [Display(Name = "Email Sucursal")]
         [Required]
-        [StringLength(10, ErrorMessage = "Longitud Maxima 10")]
+        [StringLength(100, ErrorMessage = "Longitud Maxima 100")]
         [EmailAddress(ErrorMessage ="INgrese un email valido")]
         public string email { get; set; }
         [Required]
