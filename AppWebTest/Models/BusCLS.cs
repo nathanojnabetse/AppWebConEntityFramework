@@ -21,10 +21,11 @@ namespace AppWebTest.Models
         [StringLength(100, ErrorMessage = "Long max 100")]
         public string placa { get; set; }
         [Display(Name = "Fecha Compra")]
+        [DataType(DataType.Date)]
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaCompra { get; set; }
-        [Display(Name = "Nombre Compra")]
+        [Display(Name = "Nombre Modelo")]
         [Required]
         public int iidModelo { get; set; }
         [Display(Name = "Numero filas")]
@@ -37,10 +38,10 @@ namespace AppWebTest.Models
         [Display(Name = "Descripcion")]
         [Required]
         [StringLength(200, ErrorMessage = "Long max 200")]
-        public int descripcion { get; set; }
+        public string descripcion { get; set; }
         [Display(Name = "Observacion")]
         [StringLength(200, ErrorMessage = "Long max 200")]
-        public int observacion { get; set; }
+        public string observacion { get; set; }
         [Display(Name = "Nombre Marca")]//al agregar y editar la info sale del combobox
         [Required]
         public int iidmarca { get; set; }

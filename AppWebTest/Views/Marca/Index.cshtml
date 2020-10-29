@@ -9,21 +9,26 @@
 <table class="table-bordered table-hover">
     <thead>
         <tr>
-            <td width="10%">@Html.LabelFor(p=>Model[0].idMarca)</td>
-            <td width="20%">Nombre Marca</td="10%">
-            <td width="70%">@Html.LabelFor(p => Model[0].descripcion)</td>
+            <td width="10%">@Html.LabelFor(p => Model[0].idMarca)</td>
+            <td width="20%">Nombre Marca</td>
+            <td width="60%">@Html.LabelFor(p => Model[0].descripcion)</td>
+            <td width="10%">Operaciones</td>
         </tr>
     </thead>
     <tbody>
         @foreach (var iter in Model)
         {
-        <tr>
-            <td>@iter.idMarca</td>
-            <td>@iter.nombre</td>
-            <td>@iter.descripcion</td>
-        </tr>
+            <tr>
+                <td>@iter.idMarca</td>
+                <td>@iter.nombre</td>
+                <td>@iter.descripcion</td>
+                <td>
+                    @Html.ActionLink(" ", "Editar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
+                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                </td>
+            </tr>        
         }
 
-    </tbody>
+        </tbody>
 
-</table>
+    </table>

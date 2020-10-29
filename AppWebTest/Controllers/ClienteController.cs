@@ -50,6 +50,8 @@ namespace AppWebTest.Controllers
         {
             llenarSexo();
             ViewBag.lista = listaSexo; //pasar info del controller a la vista
+
+
             return View();
         }
 
@@ -83,6 +85,34 @@ namespace AppWebTest.Controllers
                 
             }
             return RedirectToAction("Index");
+        }
+
+        //recupera info
+        public ActionResult Editar(int id)
+        {
+            ClienteCLS oClienteCLS = new ClienteCLS();
+            
+            using (var bd = new BDPasajeEntities())
+            {
+                //esto por que al revesitR TAMBIEN NECESITA COMBOBOX
+                llenarSexo();
+                //desde la lista editar
+                ViewBag.lista = listaSexo; //pasar info del controller a la vista
+
+                //campos a recuperar y mostrar para editar
+                Cliente oCliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(id)).First();
+                oClienteCLS.idCliente = oCliente.IIDCLIENTE;
+                oClienteCLS.nombre = oCliente.NOMBRE;
+                oClienteCLS.appaterneno = oCliente.APPATERNO;
+                oClienteCLS.apmaterno = oCliente.APMATERNO;
+                oClienteCLS.direccion = oCliente.DIRECCION;
+                oClienteCLS.email = oCliente.EMAIL;
+                oClienteCLS.iidsexo = (int)oCliente.IIDSEXO;
+                oClienteCLS.email = oCliente.EMAIL;
+                oClienteCLS.telefonoCelular = oCliente.TELEFONOCELULAR;
+                oClienteCLS.telefonoFijo = oCliente.TELEFONOFIJO;
+            }
+                return View(oClienteCLS);
         }
     }
 }

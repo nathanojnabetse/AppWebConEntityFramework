@@ -1,16 +1,22 @@
-﻿@using AppWebTest.Models 
+﻿@using AppWebTest.Models
 @model ClienteCLS
+
 @{
-    ViewBag.Title = "Agregar";
+    ViewBag.Title = "Editar";
     List<SelectListItem> listaSexo = (ViewBag.lista);
 }
 
-<h2>Agregar</h2>
+<h2>Editar</h2>
 
 <div class="row">
     <div class="col-md-6">
-        @using (Html.BeginForm("Agregar", "Cliente", FormMethod.Post))
+        @using (Html.BeginForm("Editar", "Cliente", FormMethod.Post))
         {
+            <div>
+                @Html.LabelFor(p => p.idCliente)
+                @Html.TextBoxFor(p => p.idCliente, new { @class = "form-control", @readOnly = true })
+                @Html.ValidationMessage("idCliente", new { @class = "text-danger" })
+            </div>
             <div>
                 @Html.LabelFor(p => p.nombre)
                 @Html.TextBoxFor(p => p.nombre, new { @class = "form-control" })
@@ -18,7 +24,7 @@
             </div>
             <div>
                 @Html.LabelFor(p => p.appaterneno)
-                @Html.TextBoxFor(p => p.appaterneno, new { @class = "text-danger" })
+                @Html.TextBoxFor(p => p.appaterneno, new { @class = "form-control" })
                 @Html.ValidationMessage("appaterneno", new { @class = "text-danger" })
             </div>
             <div>
@@ -38,7 +44,7 @@
             </div>
             <div>
                 @Html.LabelFor(p => p.iidsexo)
-                @Html.DropDownList("iidsexo",listaSexo,null,new { @class="form-control"})
+                @Html.DropDownList("iidsexo", listaSexo, null, new { @class = "form-control" })
                 @Html.ValidationMessage("iidsexo", new { @class = "text-danger" })
             </div>
             <div>
@@ -55,6 +61,6 @@
                 <input type="submit" value="Enviar" class="btn btn-primary" />
             </div>
 
-         }
+        }
     </div>
 </div>

@@ -30,6 +30,7 @@ namespace AppWebTest.Models
         public string email { get; set; }
         [Required]
         [Display(Name = "Dirección")]
+        [DataType(DataType.MultilineText)]//CAMPOS MULTITEXTO
         [StringLength(200, ErrorMessage = "Longitud Mmaxima 200")]
         public string direccion { get; set; }
         [Required]

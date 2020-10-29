@@ -58,6 +58,24 @@ namespace AppWebTest.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Editar(int id)
+        {
+            SucursalCLS oSucurcalCLS = new SucursalCLS();
+                 
+            using(var bd =new BDPasajeEntities())
+            {
+                Sucursal oSucursal = bd.Sucursal.Where(p => p.IIDSUCURSAL.Equals(id)).First();
+                oSucurcalCLS.idsucursal = oSucursal.IIDSUCURSAL;
+                oSucurcalCLS.nombre = oSucursal.NOMBRE;
+                oSucurcalCLS.direccion = oSucursal.DIRECCION;
+                oSucurcalCLS.telefono = oSucursal.TELEFONO;
+                oSucurcalCLS.email = oSucursal.EMAIL;
+                oSucurcalCLS.fechaApertura = (DateTime)oSucursal.FECHAAPERTURA;
+            }
+
+            return View(oSucurcalCLS);
+        }
        
 
         
