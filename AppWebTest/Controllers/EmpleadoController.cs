@@ -148,5 +148,31 @@ namespace AppWebTest.Controllers
 
                 return View(oEmpleadoCLS);
         }
+        [HttpPost]
+        public ActionResult Editar(EmpleadoCLS oEmpleadoCLS)
+        {
+            int idEmpleado = oEmpleadoCLS.iidEmpleado;
+            if(!ModelState.IsValid)
+            {
+                return View();
+
+            }
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Empleado oEmpleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(idEmpleado)).First();
+                oEmpleado.NOMBRE = oEmpleadoCLS.nombre;
+                oEmpleado.APPATERNO = oEmpleadoCLS.apPaterno;
+                oEmpleado.APMATERNO = oEmpleadoCLS.apMaterno;
+                oEmpleado.FECHACONTRATO = oEmpleadoCLS.fechaContrato;
+                oEmpleado.SUELDO = oEmpleadoCLS.sueldo;
+                oEmpleado.IIDTIPOCONTRATO = oEmpleadoCLS.idtipoContrato;
+                oEmpleado.TIPOUSUARIO = oEmpleadoCLS.nombreTipoUsuario;
+                oEmpleado.IIDSEXO = oEmpleadoCLS.iidSexo;
+
+                bd.SaveChanges();
+            }
+                return RedirectToAction("Index");
+        }
     }
 }

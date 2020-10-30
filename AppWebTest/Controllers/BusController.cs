@@ -49,6 +49,7 @@ namespace AppWebTest.Controllers
         {
             if(!ModelState.IsValid)
             {
+                listarCombos();
                 return View(oBusCLS);
             }
             using (var bd = new BDPasajeEntities())
@@ -150,6 +151,7 @@ namespace AppWebTest.Controllers
             listarSucursal();
         }
 
+        //para recuperar y listar en la de edicion, muestra los datos
         public ActionResult Editar(int id)
         {
             listarCombos();
@@ -171,6 +173,36 @@ namespace AppWebTest.Controllers
             }
 
                 return View(oBusCLS);
+        }
+
+        //para editar
+        [HttpPost]
+        public ActionResult Editar(BusCLS oBusCLS)
+        {
+            int idBus = oBusCLS.iidBus;
+            if(!ModelState.IsValid)
+            {
+                return View(oBusCLS);
+            }
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Bus oBus = bd.Bus.Where(p => p.IIDBUS.Equals(idBus)).First();
+
+                oBus.IIDSUCURSAL = oBusCLS.iidSucursal;
+                oBus.IIDTIPOBUS = oBusCLS.iidTipoBus;
+                oBus.PLACA = oBusCLS.placa;
+                oBus.FECHACOMPRA = oBusCLS.fechaCompra;
+                oBus.IIDMODELO = oBusCLS.iidModelo;
+                oBus.NUMEROFILAS = oBusCLS.numeroFilas;
+                oBus.NUMEROCOLUMNAS = oBusCLS.numeroColumnas;
+                oBus.OBSERVACION = oBusCLS.observacion;
+                oBus.DESCRIPCION = oBusCLS.descripcion;
+                oBus.IIDMARCA = oBusCLS.iidmarca;
+
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

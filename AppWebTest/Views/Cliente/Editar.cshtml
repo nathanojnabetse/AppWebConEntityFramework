@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        @using (Html.BeginForm("Editar", "Cliente", FormMethod.Post))
+        @using (Html.BeginForm("Editar", "Cliente", FormMethod.Post, new { @id="frmEditarCliente"}))
         {
             <div>
                 @Html.LabelFor(p => p.idCliente)
@@ -58,9 +58,42 @@
                 @Html.ValidationMessage("telefonoCelular", new { @class = "text-danger" })
             </div>
             <div style="margin:auto">
-                <input type="submit" value="Enviar" class="btn btn-primary" />
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Guardar
+                </button>
+                @Html.ActionLink("Regresar","Index","Cliente", null, new {@class = "btn btn-danger"} )
             </div>
 
         }
     </div>
 </div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea guardar los cambios</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           
+            <div style="padding:1em">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button"  onclick="Aceptar()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Aceptar() {
+
+        var frmEditarCliente = document.getElementById("frmEditarCliente");
+        frmEditarCliente.submit();
+    }
+</script>

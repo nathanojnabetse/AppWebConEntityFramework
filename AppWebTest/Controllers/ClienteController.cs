@@ -114,5 +114,35 @@ namespace AppWebTest.Controllers
             }
                 return View(oClienteCLS);
         }
+        
+        [HttpPost]
+        public ActionResult Editar(ClienteCLS oClienteCLS)
+        {
+            
+            if(!ModelState.IsValid)
+            {
+                return View(oClienteCLS);
+
+            }
+
+            int idCliente = oClienteCLS.idCliente;
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Cliente oCliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(idCliente)).First();
+                
+                oCliente.NOMBRE = oClienteCLS.nombre;
+                oCliente.APPATERNO = oClienteCLS.appaterneno;
+                oCliente.APMATERNO = oClienteCLS.apmaterno;
+                oCliente.EMAIL = oClienteCLS.email;
+                oCliente.DIRECCION = oClienteCLS.direccion;
+                oCliente.IIDSEXO = oClienteCLS.iidsexo;
+                oCliente.TELEFONOCELULAR = oClienteCLS.telefonoCelular;
+                oCliente.TELEFONOFIJO = oClienteCLS.telefonoFijo;
+                
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
