@@ -18,8 +18,10 @@ namespace AppWebTest.Models
         public int iidLugarDestino { get; set; }
         [Display(Name = "Precio")]
         [Required]
+        [Range(0,100000,ErrorMessage ="Rango fuera de indices")]
         public double precio { get; set; }
         [Display(Name = "Fecha Viaje")]
+        [DataType(DataType.Date)]
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaViaje { get; set; }

@@ -33,5 +33,52 @@ namespace AppWebTest.Controllers
             }
                 return View(listaViaje);
         }
+
+        public ActionResult Agregar()
+        {
+            listarCombos();
+            return View();
+        }
+
+        public void listarLugar()
+        {
+            
+            List<SelectListItem> lista;
+            using (var bd = new BDPasajeEntities())//llamando al modelo
+            {
+                lista = (from item in bd.Lugar
+                         where item.BHABILITADO == 1
+                         select new SelectListItem
+                         {
+                             Text = item.NOMBRE,
+                             Value = item.IIDLUGAR.ToString()
+                         }).ToList();
+                lista.Insert(0, new SelectListItem { Text = "--Seleccione--", Value = "" });
+                ViewBag.listaLugar = lista; //ViewBag pasa info del controles a la vista
+            }
+        }
+
+        public void listarBus()
+        {
+            List<SelectListItem> lista;
+            using (var bd = new BDPasajeEntities())//llamando al modelo
+            {
+                lista = (from item in bd.Bus
+                         where item.BHABILITADO == 1
+                         select new SelectListItem
+                         {
+                             Text = item.PLACA,
+                             Value = item.IIDBUS.ToString()
+                         }).ToList();
+                lista.Insert(0, new SelectListItem { Text = "--Seleccione--", Value = "" });
+                ViewBag.listaBus = lista; //ViewBag pasa info del controles a la vista
+            }
+        }
+
+        public void listarCombos()
+        {
+            listarBus();
+            listarLugar();
+        }
     }
 }
