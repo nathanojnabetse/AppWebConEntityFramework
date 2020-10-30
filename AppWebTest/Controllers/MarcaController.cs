@@ -65,15 +65,40 @@ namespace AppWebTest.Controllers
 
         public ActionResult Editar(int id)
         {
+
             MarcaCLS oMarcaCLS = new MarcaCLS();
             using(var bd = new BDPasajeEntities())
             {
                 Marca oMarca = bd.Marca.Where(p => p.IIDMARCA.Equals(id)).First();
                 oMarcaCLS.idMarca = oMarca.IIDMARCA;
                 oMarcaCLS.nombre = oMarca.NOMBRE;
-                oMarcaCLS.descripcion = oMarca.DESCRIPCION;
+                oMarcaCLS.descripcion = oMarca.DESCRIPCION;              
             }
+            
+            return View(oMarcaCLS);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(MarcaCLS oMarcaCLS)
+        {
+            
+            if(!ModelState.IsValid)
+            {
+                
                 return View(oMarcaCLS);
+                
+            }
+
+            int idMarca = oMarcaCLS.idMarca;       
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Marca oMArca = bd.Marca.Where(p => p.IIDMARCA.Equals(idMarca)).First();
+                oMArca.NOMBRE = oMarcaCLS.nombre;
+                oMArca.DESCRIPCION = oMarcaCLS.descripcion;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         
