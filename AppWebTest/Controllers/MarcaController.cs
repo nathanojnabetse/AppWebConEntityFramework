@@ -101,6 +101,16 @@ namespace AppWebTest.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        public ActionResult Eliminar(int id)
+        {
+            //deshabilitando, para eliminar eliminacio logica
+            using (var bd =new BDPasajeEntities())
+            {
+                Marca oMarca = bd.Marca.Where(p => p.IIDMARCA.Equals(id)).First();
+                oMarca.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
