@@ -101,11 +101,27 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Agregar(EmpleadoCLS oEmpleadoCLS)
         {
-            if(!ModelState.IsValid)
+            int nregistrosAfectados = 0;
+            string nombre = oEmpleadoCLS.nombre;
+            string apPaterno = oEmpleadoCLS.apPaterno;
+            string apMaterno = oEmpleadoCLS.apMaterno;
+
+            using (var bd = new BDPasajeEntities())
             {
-                listarCombos();
-                return View(oEmpleadoCLS);
+                nregistrosAfectados = bd.Empleado.Where(
+                    p => p.NOMBRE.Equals(nombre) &&
+                    p.APPATERNO.Equals(apPaterno) &&
+                    p.APMATERNO.Equals(apMaterno)).Count();
             }
+                if (!ModelState.IsValid || nregistrosAfectados >=1)
+                {
+                    if(nregistrosAfectados >=1)
+                    {
+                    oEmpleadoCLS.mensajeError = "El empleado ya existe";
+                    }
+                    listarCombos();
+                    return View(oEmpleadoCLS);
+                }
             
                 using (var bd = new BDPasajeEntities())
                 {
@@ -151,12 +167,33 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Editar(EmpleadoCLS oEmpleadoCLS)
         {
+            int nregistrosAfectados = 0;
             int idEmpleado = oEmpleadoCLS.iidEmpleado;
-            if(!ModelState.IsValid)
-            {
-                return View();
+            string nombre = oEmpleadoCLS.nombre;
+            string apPaterno = oEmpleadoCLS.apPaterno;
+            string apmaterno = oEmpleadoCLS.apMaterno;
 
+            using (var bd = new BDPasajeEntities())
+            {
+                nregistrosAfectados = bd.Empleado.Where(
+                    p => p.NOMBRE.Equals(nombre) &&
+                    p.APPATERNO.Equals(apPaterno) &&
+                    p.APMATERNO.Equals(apmaterno) &&
+                    !p.IIDEMPLEADO.Equals(idEmpleado)
+                    ).Count();
             }
+
+                if (!ModelState.IsValid || nregistrosAfectados>=1)
+                {
+                    if(nregistrosAfectados >=1 )
+                    {
+                        oEmpleadoCLS.mensajeError = "ya existe el empleado";
+                    }
+
+                listarCombos();
+                    return View();
+
+                }
 
             using (var bd = new BDPasajeEntities())
             {

@@ -47,7 +47,8 @@ namespace AppWebTest.Models
         public string nombreTipoContrato { get; set; }//esto se muesttra en la vista
         [Display(Name = "Tipo Usuario")]
         public string nombreTipoUsuario { get; set; }
-
+        //otra
+        public string mensajeError { get; set; }
 
     }
 }

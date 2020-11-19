@@ -130,6 +130,8 @@ namespace AppWebTest.Controllers
                 return View(oClienteCLS);
         }
         
+        //cuando el modelo no sea valido en agragar y editar hay que llenar los combos de nuevo en todos los formularios donde se valide el formulario
+
         [HttpPost]
         public ActionResult Editar(ClienteCLS oClienteCLS)
         {
@@ -150,6 +152,7 @@ namespace AppWebTest.Controllers
                 {
                     oClienteCLS.mensajeErrorr = "Ya existe el cliente";
                 }
+                llenarSexo();
 
                 return View(oClienteCLS);
 
