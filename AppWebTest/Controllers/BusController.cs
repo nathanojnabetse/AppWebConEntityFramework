@@ -47,11 +47,22 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Agregar(BusCLS oBusCLS)
         {
-            if(!ModelState.IsValid)
+            int nregistrosEncontrados = 0;
+            string placa = oBusCLS.placa;
+            using (var bd = new BDPasajeEntities())
             {
-                listarCombos();
-                return View(oBusCLS);
+                nregistrosEncontrados = bd.Bus.Where(p => p.PLACA.Equals(placa)).Count();
             }
+                if (!ModelState.IsValid || nregistrosEncontrados >=1)
+                {
+                    if(nregistrosEncontrados >= 1)
+                    {
+                    oBusCLS.mensajeError = "Ya existe el bus con esa placa";
+                    }
+
+                    listarCombos();
+                    return View(oBusCLS);
+                }
             using (var bd = new BDPasajeEntities())
             {
                 Bus oBus = new Bus();
@@ -180,8 +191,20 @@ namespace AppWebTest.Controllers
         public ActionResult Editar(BusCLS oBusCLS)
         {
             int idBus = oBusCLS.iidBus;
-            if(!ModelState.IsValid)
+            int nregistrosEncontrados = 0;
+            string placa = oBusCLS.placa;
+            using (var bd = new BDPasajeEntities())
             {
+                nregistrosEncontrados = bd.Bus.Where(p => p.PLACA.Equals(placa) && !p.IIDBUS.Equals(idBus)).Count();
+            }
+
+            if (!ModelState.IsValid || nregistrosEncontrados >= 1)
+            {
+                if(nregistrosEncontrados >= 1)
+                {
+                    oBusCLS.mensajeError = "El bus ya existe";
+                    listarCombos();
+                }
                 return View(oBusCLS);
             }
 
@@ -200,6 +223,18 @@ namespace AppWebTest.Controllers
                 oBus.DESCRIPCION = oBusCLS.descripcion;
                 oBus.IIDMARCA = oBusCLS.iidmarca;
 
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Eliminar (int iidBus)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Bus oBus = bd.Bus.Where(p => p.IIDBUS.Equals(iidBus)).First();
+                oBus.BHABILITADO = 0;
                 bd.SaveChanges();
             }
             return RedirectToAction("Index");

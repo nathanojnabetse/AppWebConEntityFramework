@@ -53,5 +53,6 @@ namespace AppWebTest.Models
         [Display(Name = "Nombre modelo")]
         public string nombreModelo { get; set; }
 
+        public string mensajeError { get; set; }
     }
 }
