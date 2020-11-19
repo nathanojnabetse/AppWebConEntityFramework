@@ -37,8 +37,19 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Agregar(SucursalCLS oSucursalCLS)
         {
-            if (!ModelState.IsValid)
+            int nRegistrosEncontrados = 0;
+            string nombreSucursal = oSucursalCLS.nombre;
+            using (var bd = new BDPasajeEntities())
             {
+                nRegistrosEncontrados = bd.Sucursal.Where(p => p.NOMBRE.Equals(nombreSucursal)).Count();
+            }
+            
+            if (!ModelState.IsValid || nRegistrosEncontrados >= 1)
+            {
+                if(nRegistrosEncontrados >= 1)
+                {
+                    oSucursalCLS.mensajeError = "Ya existe la sucursal a ingresar";
+                }
                 return View(oSucursalCLS);
             }
 
@@ -80,10 +91,21 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Editar(SucursalCLS oSucursalCLS)
         {
+            int nregistrosAfecados = 0;
             int idSucursal = oSucursalCLS.idsucursal;
+            string nombreSucursal = oSucursalCLS.nombre;
 
-            if(!ModelState.IsValid)
+            using (var bd = new BDPasajeEntities())
             {
+                nregistrosAfecados = bd.Sucursal.Where(p => p.NOMBRE.Equals(nombreSucursal) && !p.IIDSUCURSAL.Equals(idSucursal)).Count();
+            }
+
+            if (!ModelState.IsValid || nregistrosAfecados >= 1)
+            {
+                if(nregistrosAfecados >= 1)
+                {
+                    oSucursalCLS.mensajeError = "Ya existe la sucursal";
+                }
                 return View(oSucursalCLS);
             }
 
@@ -102,5 +124,15 @@ namespace AppWebTest.Controllers
                 return RedirectToAction("Index");
         }
         
+        public ActionResult Eliminar(int id)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Sucursal oSucursal = bd.Sucursal.Where(p => p.IIDSUCURSAL.Equals(id)).First();
+                oSucursal.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

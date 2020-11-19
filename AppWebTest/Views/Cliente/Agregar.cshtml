@@ -15,6 +15,10 @@
                 @Html.LabelFor(p => p.nombre)
                 @Html.TextBoxFor(p => p.nombre, new { @class = "form-control" })
                 @Html.ValidationMessage("nombre", new { @class = "text-danger" })
+                @if(Model != null && Model.mensajeErrorr != null)
+                {
+                    @Html.Label(Model.mensajeErrorr,new { @class ="text-danger"})
+                }
             </div>
             <div>
                 @Html.LabelFor(p => p.appaterneno)

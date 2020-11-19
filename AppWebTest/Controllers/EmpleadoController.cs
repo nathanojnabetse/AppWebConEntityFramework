@@ -174,5 +174,17 @@ namespace AppWebTest.Controllers
             }
                 return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Eliminar(int txtIdEmpleado)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Empleado emp = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(txtIdEmpleado)).First();
+                emp.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

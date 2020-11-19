@@ -8,16 +8,16 @@ namespace AppWebTest.Models
 {
     public class ClienteCLS
     {
-        
-        [Display (Name = "Id Cliente")]
+
+        [Display(Name = "Id Cliente")]
         public int idCliente { get; set; }
-        [Display (Name = "Nombre Cliente")]
+        [Display(Name = "Nombre Cliente")]
         [Required]
         [StringLength(100, ErrorMessage = "Longitud Mmaxima 100")]
         public string nombre { get; set; }
         [StringLength(150, ErrorMessage = "Longitud Mmaxima 150")]
         [Display(Name = "Apellido paterno")]
-        [Required]        
+        [Required]
         public string appaterneno { get; set; }
         [Display(Name = "Apellido materno")]
         [Required]
@@ -26,7 +26,7 @@ namespace AppWebTest.Models
         [Required]
         [Display(Name = "Email")]
         [StringLength(200, ErrorMessage = "Longitud Mmaxima 200")]
-        [EmailAddress(ErrorMessage ="Ingrese un email valido")]
+        [EmailAddress(ErrorMessage = "Ingrese un email valido")]
         public string email { get; set; }
         [Required]
         [Display(Name = "Dirección")]
@@ -48,5 +48,7 @@ namespace AppWebTest.Models
         public string bTieneUsuario { get; set; }
         public string tipoUsuario { get; set; }
 
+        //Propiedad adicional
+        public string mensajeErrorr { get; set; }
     }
 }

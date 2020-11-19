@@ -38,8 +38,21 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Agregar(MarcaCLS oMarcaCLS)//Recivbe el modelo
         {
-            if(!ModelState.IsValid)
+            int numeroDeRegistrosEncontrados = 0;
+            string nombreMarca = oMarcaCLS.nombre;
+            //eso para evitar cosas repetidas como la marca
+            using(var bd = new BDPasajeEntities())
             {
+                numeroDeRegistrosEncontrados = bd.Marca.Where(p => p.NOMBRE.Equals(nombreMarca)).Count();            
+            }
+
+            //////////////
+            if(!ModelState.IsValid || numeroDeRegistrosEncontrados>=1)
+            {
+                if(numeroDeRegistrosEncontrados >=1)
+                {
+                    oMarcaCLS.mensajeError = "El nombre marca ya existe";
+                }
                 Console.WriteLine("no es valido");
                 return View(oMarcaCLS);
                 
@@ -81,13 +94,23 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Editar(MarcaCLS oMarcaCLS)
         {
-            
-            if(!ModelState.IsValid)
+
+            int nResgistradosEncontrados = 0;
+            string nombreMarca = oMarcaCLS.nombre;
+            int iidmarca = oMarcaCLS.idMarca;
+            using (var bd = new BDPasajeEntities())
             {
-                
-                return View(oMarcaCLS);
-                
+                nResgistradosEncontrados = bd.Marca.Where(p => p.NOMBRE.Equals(nombreMarca) && !p.IIDMARCA.Equals(iidmarca) ).Count();
             }
+                if (!ModelState.IsValid || nResgistradosEncontrados >=1)
+                {
+                    if(nResgistradosEncontrados >= 1)
+                    {
+                    oMarcaCLS.mensajeError = "Ya se encuentra registrada la marca";
+                    }
+                    return View(oMarcaCLS);
+
+                }
 
             int idMarca = oMarcaCLS.idMarca;       
 

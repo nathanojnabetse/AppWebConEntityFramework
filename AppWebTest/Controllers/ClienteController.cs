@@ -18,6 +18,7 @@ namespace AppWebTest.Controllers
             using (var bd = new BDPasajeEntities())
             {
                 listaCliente = (from cliente in bd.Cliente
+                                where cliente.BHABILITADO == 1
                                 select new ClienteCLS
                                 {
                                     idCliente = cliente.IIDCLIENTE,
@@ -58,11 +59,25 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Agregar(ClienteCLS oClienteCLS)
         {
-            using (var bd=new BDPasajeEntities())
+            //
+            int nregistrosEncontrados = 0;
+            string nombre = oClienteCLS.nombre;
+            string apPaterno = oClienteCLS.appaterneno;
+            string apmaterno = oClienteCLS.apmaterno;
+            using (var bd = new BDPasajeEntities())
+            {
+                nregistrosEncontrados = bd.Cliente.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apPaterno) && p.APMATERNO.Equals(apmaterno)).Count();
+            }
+            //
+            using (var bd = new BDPasajeEntities())
             {
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid || nregistrosEncontrados >= 1)
                 {
+                    if(nregistrosEncontrados>=1)
+                    {
+                        oClienteCLS.mensajeErrorr = "Ya rxiste cliente registrado";
+                    }
                     llenarSexo();
                     ViewBag.lista = listaSexo;
                     return View(oClienteCLS);
@@ -82,7 +97,7 @@ namespace AppWebTest.Controllers
                     bd.Cliente.Add(oCliente);
                     bd.SaveChanges();
                 }
-                
+
             }
             return RedirectToAction("Index");
         }
@@ -118,14 +133,28 @@ namespace AppWebTest.Controllers
         [HttpPost]
         public ActionResult Editar(ClienteCLS oClienteCLS)
         {
-            
-            if(!ModelState.IsValid)
+            int nregistrosEncontrados = 0;
+            int idCliente = oClienteCLS.idCliente;
+            string nombre = oClienteCLS.nombre;
+            string apPaterno = oClienteCLS.appaterneno;
+            string apMaterno = oClienteCLS.apmaterno;
+
+            using (var bd = new BDPasajeEntities())
             {
+                nregistrosEncontrados = bd.Cliente.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apPaterno) && p.APMATERNO.Equals(apMaterno) && !p.Equals(idCliente)).Count();
+            }
+            
+            if (!ModelState.IsValid || nregistrosEncontrados >= 1)
+            {
+                if(nregistrosEncontrados >=1)
+                {
+                    oClienteCLS.mensajeErrorr = "Ya existe el cliente";
+                }
+
                 return View(oClienteCLS);
 
             }
 
-            int idCliente = oClienteCLS.idCliente;
 
             using (var bd = new BDPasajeEntities())
             {
@@ -143,6 +172,17 @@ namespace AppWebTest.Controllers
                 bd.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Eliminar(int idcliente)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Cliente oCliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(idcliente)).First();
+                oCliente.BHABILITADO = 0;
+                bd.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

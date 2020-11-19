@@ -32,5 +32,7 @@ namespace AppWebTest.Models
         public DateTime fechaApertura { get; set; }
 
         public int bhabilitado { get; set; }
+        //propiedad adicional
+        public string mensajeError { get; set; }
     }
 }

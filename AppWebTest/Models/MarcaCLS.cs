@@ -26,5 +26,8 @@ namespace AppWebTest.Models
 
         public int nhabilitado { get; set; }
 
+        //añado una propiedad (errores de validacion)
+
+        public string mensajeError { get; set; }
     }
 }
