@@ -10,20 +10,38 @@ namespace AppWebTest.Controllers
     public class MarcaController : Controller
     {
         // GET: Marca
-        public ActionResult Index()
+        public ActionResult Index(MarcaCLS oMarcaCLS)//Recibe el modelo
         {
+            string nombreMArca = oMarcaCLS.nombre;
             List<MarcaCLS> listaMarca = null;
+
 
             using (var bd = new BDPasajeEntities())
             {
-                listaMarca = (from marca in bd.Marca
-                              where marca.BHABILITADO==1
-                                             select new MarcaCLS
-                                             {
-                                                 idMarca = marca.IIDMARCA,
-                                                 nombre = marca.NOMBRE,
-                                                 descripcion = marca.DESCRIPCION
-                                             }).ToList();
+                if(oMarcaCLS.nombre == null)//si es nulo muestra todo
+                {
+                    listaMarca = (from marca in bd.Marca
+                                  where marca.BHABILITADO == 1
+                                  select new MarcaCLS
+                                  {
+                                      idMarca = marca.IIDMARCA,
+                                      nombre = marca.NOMBRE,
+                                      descripcion = marca.DESCRIPCION
+                                  }).ToList();
+                }
+                else //aqui se pone un filtro con nombreMArca, el filtrado es con un boton
+                {
+                    listaMarca = (from marca in bd.Marca
+                                  where marca.BHABILITADO == 1
+                                  && marca.NOMBRE .Contains(nombreMArca)
+                                  select new MarcaCLS
+                                  {
+                                      idMarca = marca.IIDMARCA,
+                                      nombre = marca.NOMBRE,
+                                      descripcion = marca.DESCRIPCION
+                                  }).ToList();
+                }
+                
             }
          return View(listaMarca);
         }
@@ -135,5 +153,7 @@ namespace AppWebTest.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
     }
 }

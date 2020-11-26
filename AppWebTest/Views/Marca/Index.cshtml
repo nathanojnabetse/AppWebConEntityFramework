@@ -5,33 +5,46 @@
 }
 
 <h2>Index</h2>
-@Html.ActionLink("Agregar", "Agregar", "Marca",null,new { @class = "btn btn-primary"})
-<table class="table-bordered table-hover">
-    <thead>
-        <tr>
-            <td width="10%">@Html.LabelFor(p => Model[0].idMarca)</td>
-            <td width="20%">Nombre Marca</td>
-            <td width="60%">@Html.LabelFor(p => Model[0].descripcion)</td>
-            <td width="10%">Operaciones</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var iter in Model)
-        {
+@Html.ActionLink("Agregar", "Agregar", "Marca", null, new { @class = "btn btn-primary" })
+
+
+
+@using (Html.BeginForm("Index", "Marca", FormMethod.Post))
+{
+    @Html.Label("Ingrese nombre marca")
+    @Html.TextBox("Nombre")
+    <input type="submit" class="btn btn-success" value="Enviar" />
+
+    <table class="table-bordered table-hover">
+        <thead>
             <tr>
-                <td>@iter.idMarca</td>
-                <td>@iter.nombre</td>
-                <td>@iter.descripcion</td>
-                <td>
-                    @Html.ActionLink(" ", "Editar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
-                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick="eliminar()" })
-                </td>
-            </tr>        
-        }
+                <td width="10%">@Html.LabelFor(p => Model[0].idMarca)</td>
+                <td width="20%">Nombre Marca</td>
+                <td width="60%">@Html.LabelFor(p => Model[0].descripcion)</td>
+                <td width="10%">Operaciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var iter in Model)
+            {
+                <tr>
+                    <td>@iter.idMarca</td>
+                    <td>@iter.nombre</td>
+                    <td>@iter.descripcion</td>
+                    <td>
+                        @Html.ActionLink(" ", "Editar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
+                        @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @iter.idMarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick = "eliminar()" })
+                    </td>
+                </tr>
+
+            }
 
         </tbody>
 
     </table>
+}
+
+
 
 <script>
     function eliminar() {
