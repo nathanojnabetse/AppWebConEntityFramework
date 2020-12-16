@@ -10,21 +10,39 @@ namespace AppWebTest.Controllers
     public class SucursalController : Controller
     {
         // GET: Sucursal
-        public ActionResult Index()
+        public ActionResult Index(SucursalCLS oSucursalCLS)
         {
             List<SucursalCLS> listaSucursal = null;
+            string nombreSucursal = oSucursalCLS.nombre;
+           
             using (var bd = new BDPasajeEntities())
             {
-                listaSucursal = (from sucursal in bd.Sucursal
-                                 where sucursal.BHABILITADO==1
-                                select new SucursalCLS
-                                {
-                                    idsucursal = sucursal.IIDSUCURSAL,
-                                    nombre = sucursal.NOMBRE,
-                                    telefono = sucursal.TELEFONO,
-                                    email = sucursal.EMAIL
-                                }).ToList();
-            }
+                if (oSucursalCLS.nombre == null)
+                {
+                    listaSucursal = (from sucursal in bd.Sucursal
+                                     where sucursal.BHABILITADO == 1
+                                     select new SucursalCLS
+                                     {
+                                         idsucursal = sucursal.IIDSUCURSAL,
+                                         nombre = sucursal.NOMBRE,
+                                         telefono = sucursal.TELEFONO,
+                                         email = sucursal.EMAIL
+                                     }).ToList();
+                }
+                else //busqueda sensitiva
+                {
+                    listaSucursal = (from sucursal in bd.Sucursal
+                                     where sucursal.BHABILITADO == 1
+                                     && sucursal.NOMBRE.Contains(nombreSucursal)
+                                     select new SucursalCLS
+                                     {
+                                         idsucursal = sucursal.IIDSUCURSAL,
+                                         nombre = sucursal.NOMBRE,
+                                         telefono = sucursal.TELEFONO,
+                                         email = sucursal.EMAIL
+                                     }).ToList();
+                }
+            }            
             return View(listaSucursal);//PAsar la lista a la vista
         }
 
