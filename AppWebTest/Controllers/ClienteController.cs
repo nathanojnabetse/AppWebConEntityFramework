@@ -11,22 +11,43 @@ namespace AppWebTest.Controllers
     public class ClienteController : Controller
     {
         // GET: Cliente
-        public ActionResult Index()
+        public ActionResult Index(ClienteCLS oClienteCLS)
         {
             List<ClienteCLS> listaCliente = null;
+            int iidsexo = oClienteCLS.iidsexo;
+            llenarSexo();
+            ViewBag.lista = listaSexo;
 
             using (var bd = new BDPasajeEntities())
             {
-                listaCliente = (from cliente in bd.Cliente
-                                where cliente.BHABILITADO == 1
-                                select new ClienteCLS
-                                {
-                                    idCliente = cliente.IIDCLIENTE,
-                                    nombre = cliente.NOMBRE,
-                                    appaterneno=cliente.APPATERNO,
-                                    apmaterno = cliente.APMATERNO,
-                                    telefonoFijo = cliente.TELEFONOFIJO
-                                }).ToList();
+                if(oClienteCLS.iidsexo==0)
+                {
+                    listaCliente = (from cliente in bd.Cliente
+                                    where cliente.BHABILITADO == 1
+                                    select new ClienteCLS
+                                    {
+                                        idCliente = cliente.IIDCLIENTE,
+                                        nombre = cliente.NOMBRE,
+                                        appaterneno = cliente.APPATERNO,
+                                        apmaterno = cliente.APMATERNO,
+                                        telefonoFijo = cliente.TELEFONOFIJO
+                                    }).ToList();
+                }
+                else
+                {
+                    listaCliente = (from cliente in bd.Cliente
+                                    where cliente.BHABILITADO == 1
+                                    && cliente.IIDSEXO == iidsexo
+                                    select new ClienteCLS
+                                    {
+                                        idCliente = cliente.IIDCLIENTE,
+                                        nombre = cliente.NOMBRE,
+                                        appaterneno = cliente.APPATERNO,
+                                        apmaterno = cliente.APMATERNO,
+                                        telefonoFijo = cliente.TELEFONOFIJO
+                                    }).ToList();
+                }
+                
             }
                 return View(listaCliente);
         }
@@ -143,7 +164,12 @@ namespace AppWebTest.Controllers
 
             using (var bd = new BDPasajeEntities())
             {
-                nregistrosEncontrados = bd.Cliente.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apPaterno) && p.APMATERNO.Equals(apMaterno) && !p.Equals(idCliente)).Count();
+                nregistrosEncontrados = bd.Cliente.Where(
+                    p => p.NOMBRE.Equals(nombre) && 
+                    p.APPATERNO.Equals(apPaterno) && 
+                    p.APMATERNO.Equals(apMaterno) && 
+                    !p.IIDCLIENTE.Equals(idCliente)
+                    ).Count();
             }
             
             if (!ModelState.IsValid || nregistrosEncontrados >= 1)
