@@ -11,25 +11,50 @@ namespace AppWebTest.Controllers
     public class EmpleadoController : Controller
     {
         // GET: Empleado
-        public ActionResult Index()
+        public ActionResult Index(EmpleadoCLS oEmpleadoCLS)
         {
+            int idTipoUsuario = oEmpleadoCLS.idtipoUsuario;
             List<EmpleadoCLS> listaEmpleados = null;
+            listarComboTipoUsuario();
+
             using (var bd = new BDPasajeEntities())
             {
-                listaEmpleados = (from empleado in bd.Empleado
-                                  join tipousuario in bd.TipoUsuario
-                                  on empleado.IIDTIPOUSUARIO equals tipousuario.IIDTIPOUSUARIO
-                                  join tipoContrato in bd.TipoContrato
-                                  on empleado.IIDTIPOCONTRATO equals tipoContrato.IIDTIPOCONTRATO
-                                  where empleado.BHABILITADO == 1
-                                  select new EmpleadoCLS
-                                  {
-                                      iidEmpleado = empleado.IIDEMPLEADO,
-                                      nombre = empleado.NOMBRE,
-                                      apPaterno = empleado.APPATERNO,
-                                      nombreTipoUsuario = tipousuario.NOMBRE,
-                                      nombreTipoContrato = tipoContrato.NOMBRE
-                                  }).ToList();
+                if(idTipoUsuario == 0)
+                {
+                    listaEmpleados = (from empleado in bd.Empleado
+                                      join tipousuario in bd.TipoUsuario
+                                      on empleado.IIDTIPOUSUARIO equals tipousuario.IIDTIPOUSUARIO
+                                      join tipoContrato in bd.TipoContrato
+                                      on empleado.IIDTIPOCONTRATO equals tipoContrato.IIDTIPOCONTRATO
+                                      where empleado.BHABILITADO == 1
+                                      select new EmpleadoCLS
+                                      {
+                                          iidEmpleado = empleado.IIDEMPLEADO,
+                                          nombre = empleado.NOMBRE,
+                                          apPaterno = empleado.APPATERNO,
+                                          nombreTipoUsuario = tipousuario.NOMBRE,
+                                          nombreTipoContrato = tipoContrato.NOMBRE
+                                      }).ToList();
+                }
+                else
+                {
+                    listaEmpleados = (from empleado in bd.Empleado
+                                      join tipousuario in bd.TipoUsuario
+                                      on empleado.IIDTIPOUSUARIO equals tipousuario.IIDTIPOUSUARIO
+                                      join tipoContrato in bd.TipoContrato
+                                      on empleado.IIDTIPOCONTRATO equals tipoContrato.IIDTIPOCONTRATO
+                                      where empleado.BHABILITADO == 1
+                                      &&empleado.IIDTIPOUSUARIO == idTipoUsuario
+                                      select new EmpleadoCLS
+                                      {
+                                          iidEmpleado = empleado.IIDEMPLEADO,
+                                          nombre = empleado.NOMBRE,
+                                          apPaterno = empleado.APPATERNO,
+                                          nombreTipoUsuario = tipousuario.NOMBRE,
+                                          nombreTipoContrato = tipoContrato.NOMBRE
+                                      }).ToList();
+                }
+                
             }
             return View(listaEmpleados);
         }
@@ -204,7 +229,7 @@ namespace AppWebTest.Controllers
                 oEmpleado.FECHACONTRATO = oEmpleadoCLS.fechaContrato;
                 oEmpleado.SUELDO = oEmpleadoCLS.sueldo;
                 oEmpleado.IIDTIPOCONTRATO = oEmpleadoCLS.idtipoContrato;
-                oEmpleado.TIPOUSUARIO = oEmpleadoCLS.nombreTipoUsuario;
+                oEmpleado.IIDTIPOUSUARIO = oEmpleadoCLS.idtipoUsuario;
                 oEmpleado.IIDSEXO = oEmpleadoCLS.iidSexo;
 
                 bd.SaveChanges();
