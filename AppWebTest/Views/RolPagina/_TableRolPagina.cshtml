@@ -1,0 +1,22 @@
+﻿@using AppWebTest.Models
+@model List<RolPaginaCLS>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].iidrolpagina)</td>
+            <td>@Html.LabelFor(p => Model[0].nombreRol)</td>
+            <td>@Html.LabelFor(p => Model[0].nombreMensaje)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.iidrolpagina</td>
+                <td>@item.nombreRol</td>
+                <td>@item.nombreMensaje</td>
+            </tr>
+        }
+    </tbody>
+</table>
