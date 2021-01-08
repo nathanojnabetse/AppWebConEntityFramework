@@ -29,13 +29,13 @@ namespace AppWebTest.Controllers
                 return View(listarol);
         }
 
-        public ActionResult Filtro(string nombre)
+        public ActionResult Filtro(string nombrerol)
         {
             List<RolCLS> listarol = new List<RolCLS>();
 
             using (var bd = new BDPasajeEntities())
             {
-                if(nombre == null)
+                if(nombrerol == null)
                 {
                     listarol = (from rol in bd.Rol
                                 where rol.BHABILITADO == 1
@@ -50,7 +50,7 @@ namespace AppWebTest.Controllers
                 {
                     listarol = (from rol in bd.Rol
                                 where rol.BHABILITADO == 1
-                                && rol.NOMBRE.Contains(nombre)
+                                && rol.NOMBRE.Contains(nombrerol)
                                 select new RolCLS
                                 {
                                     iidRol = rol.IIDROL,
@@ -62,22 +62,70 @@ namespace AppWebTest.Controllers
             }
         }
 
-        public int Guardar(RolCLS oRolCLS, int titulo)
+        public string Guardar(RolCLS oRolCLS, int titulo)
         {
-            int respuesta = 0;// bumero de registros afectados
-            using (var bd = new BDPasajeEntities())
-            {
-                if(titulo.Equals(1))
+            string respuesta = "";// bumero de registros afectados
+            try
+            {                
+                if (!ModelState.IsValid)
                 {
-                    Rol oRol = new Rol();
-                    oRol.NOMBRE = oRolCLS.nombre;
-                    oRol.DESCRIPCION = oRolCLS.descripcion;
-                    oRol.BHABILITADO = 1;
-                    bd.Rol.Add(oRol);
-                    respuesta = bd.SaveChanges();
+                    var query = (from state in ModelState.Values//valores
+                                 from error in state.Errors//mensajes
+                                 select error.ErrorMessage).ToList();
+                    respuesta += "<ul class='list-group'>";
+                    foreach (var item in query)
+                    {
+                        respuesta += "<li class='list-group-item'>" + item + "</li>";
+                    }
+                    respuesta += "</ul>";
+                }
+                else
+                {//devuleve 1 es correcto
+                    using (var bd = new BDPasajeEntities())
+                    {
+                        if (titulo.Equals(-1))//guardar
+                        {
+                            Rol oRol = new Rol();
+                            oRol.NOMBRE = oRolCLS.nombre;
+                            oRol.DESCRIPCION = oRolCLS.descripcion;
+                            oRol.BHABILITADO = 1;
+                            bd.Rol.Add(oRol);
+                            respuesta = bd.SaveChanges().ToString();
+                            if (respuesta == "0")//no se agrego nada
+                            {
+                                respuesta = "";
+                            }
+                        }
+                        else//editar
+                        {
+                            //obtener todo el registro por id
+                            Rol oRol = bd.Rol.Where(p => p.IIDROL == titulo).First();
+                            oRol.NOMBRE = oRolCLS.nombre;
+                            oRol.DESCRIPCION = oRolCLS.descripcion;
+                            respuesta = bd.SaveChanges().ToString();
+                        }
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                respuesta = "";
+            }
+            
+            
             return respuesta;
+        }
+
+        public JsonResult recuperarDatos(int titulo)
+        {
+            RolCLS oRolCLS = new RolCLS();
+            using (var bd  = new BDPasajeEntities())
+            {
+                Rol oRol = bd.Rol.Where(p => p.IIDROL == titulo).First();
+                oRolCLS.nombre = oRol.NOMBRE;
+                oRolCLS.descripcion = oRol.DESCRIPCION;
+            }
+            return Json(oRolCLS,JsonRequestBehavior.AllowGet);//objetoserializado, no se puedde enviar asi no mas un objeto a la vista
         }
     }
 }

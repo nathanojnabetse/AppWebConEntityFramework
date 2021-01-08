@@ -19,7 +19,7 @@
 }, new { @id = "frmFiltro" }))
 {
     @Html.Label("Ingrese nombre rol")
-    @Html.TextBox("nombre", null, new { @class = "form-control" })
+    @Html.TextBox("nombreRol", null, new { @class = "form-control" })
     <div id="divRol">
         @Html.Partial("_TablaRol", Model)
     </div>
@@ -39,18 +39,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Ajax.BeginForm("Guardar", "Rol",null, new AjaxOptions
+            @using (Ajax.BeginForm("Guardar", "Rol", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnSuccess = "Guardar"
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
             }))
             {
                 @Html.Hidden("titulo")
                 <div class="modal-body">
-                    <div>
-                        @Html.Label("id Rol")
-                        @Html.TextBox("iidRol", null, new { @class = "form-control", @readOnly = true })
-                    </div>
                     <div>
                         @Html.Label("Nombre Rol")
                         @Html.TextBox("nombre", null, new { @class = "form-control" })
@@ -65,8 +62,9 @@
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Understood</button>
                 </div>
-            }
 
+            }
+            <div id="error"></div>
         </div>
     </div>
 </div>
@@ -79,17 +77,37 @@
     }
 
     function Agregar() {
-        document.getElementById("titulo").value = 1;
+        limpiar()
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("titulo").value = -1;
     }
 
     function Guardar(resultado) {
-        if (resultado == 1) {//si se ingreso es uno y se refewsca la visa parcial
-            $("#frmFiltro").trigger("submit");
+        if (resultado == "1" || resultado == "0") {//  si se ingreso es uno y se refewsca la visa parcial
+            $("#frmFiltro").trigger("submit");//refresca el grid
             document.getElementById("btnClose").click();
             alert("Se guardo correctamente");
         }
         else {
             alert("Ocurrio un error");
         }
+    }
+    //id de la fila seleccionada
+    function Editar(id) {
+        limpiar()
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("titulo").value = id;
+        $.get("Rol/recuperarDatos/?titulo=" + id, function (data) {
+            document.getElementById("nombre").value = data.nombre
+            document.getElementById("descripcion").value = data.descripcion
+
+        })
+    }
+
+    function limpiar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("error").innerHTML = "";
+
     }
 </script>
