@@ -20,5 +20,7 @@ namespace AppWebTest.Models
         [Display(Name = "nombre del controlador")]
         public string controlador { get; set; }
         public int bhabilitado { get; set; }
+        //propiedad adicional
+        public string mensajeFiltro { get; set; }
     }
 }

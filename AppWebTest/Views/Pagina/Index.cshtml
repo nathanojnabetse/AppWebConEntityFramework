@@ -21,7 +21,7 @@
     }, new { @id = "frmFiltrado" }))
     {
         @Html.Label("Ingrese mensaje")
-        @Html.TextBox("mensaje")
+        @Html.TextBox("mensajeFiltro")
 
         
 
@@ -46,15 +46,13 @@
             @using (Ajax.BeginForm("Guardar", "Pagina", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnSuccess = "Guardar"
+                OnSuccess = "Guardar",
+                InsertionMode=InsertionMode.Replace,
+                UpdateTargetId="divError"
             }))
             {
                 @Html.Hidden("titulo")
-                <div class="modal-body">
-                    <div>
-                        @Html.Label("id Pagina")
-                        @Html.TextBox("iidPagina", null, new { @class = "form-control", @readOnly = true })
-                    </div>
+                <div class="modal-body">                    
                     <div>
                         @Html.Label("Mensaje")
                         @Html.TextBox("mensaje", null, new { @class = "form-control" })
@@ -73,6 +71,7 @@
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Understood</button>
                 </div>
+                <div id="divError"></div>
             }
 
         </div>
@@ -92,17 +91,40 @@
     //}
 
     function Agregar() {
-        document.getElementById("titulo").value = "1";
+        Limpiar();
+        document.getElementById("titulo").value = "-1";
+       
     }
 
     function Guardar(result) {
-        if (result == 1) {
+        if (result == "1" || result =="0") {
+            $("#frmFiltrado").trigger("submit");
             document.getElementById("btnClose").click();
             alert("se ejecuto correctamente");
-            $("#frmFiltrado").trigger("submit");
+            
         }
         else {
             alert("ocurrio un error")
+        }
+    }
+
+    function Editar(idPagina) {
+        
+        $.get("Pagina/recuperarInformacion/?idPagina=" + idPagina, function (data) {
+            document.getElementById("mensaje").value = data.mensaje;
+            document.getElementById("accion").value = data.accion;
+            document.getElementById("controlador").value = data.controlador;
+        })
+        document.getElementById("titulo").value = idPagina;
+        Limpiar(); 
+    }
+
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i <= controles.length; i++) {
+            control = controles[i];
+            control.value = " ";
         }
     }
 </script>

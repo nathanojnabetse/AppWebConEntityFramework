@@ -15,7 +15,7 @@
         <th>
             @Html.LabelFor(model => Model[0].controlador)
         </th>
-        <th></th>
+        <th>Operacniones</th>
     </tr>
 
     @foreach (var item in Model)
@@ -33,7 +33,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.controlador)
             </td>
-
+            <td>
+                <button type="button" onclick="Editar(@item.iidpagina)" class="glyphicon-edit glyphicon btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                </button>
+            </td>
 
         </tr>
     }
