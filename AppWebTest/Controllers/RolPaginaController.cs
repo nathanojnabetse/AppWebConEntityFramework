@@ -69,31 +69,69 @@ namespace AppWebTest.Controllers
         }
 
 
-        public int Guardar(RolPaginaCLS oRolPaginaCLS, int titulo)
+        public string Guardar(RolPaginaCLS oRolPaginaCLS, int titulo)
         {
-            int rpta = 0;
-
-            using (var bd = new BDPasajeEntities())
+            //error
+            string rpta = "";
+            try
             {
-                if(titulo ==1)
+                if (!ModelState.IsValid)
                 {
-                    RolPagina oRolPagina = new RolPagina();
-                    oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
-                    oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
-                    oRolPagina.BHABILITADO = 1;
-                    bd.RolPagina.Add(oRolPagina);
-                    rpta = bd.SaveChanges();//numero de registros afectado
+                    var query = (from state in ModelState.Values//valores
+                                 from error in state.Errors//mensajes
+                                 select error.ErrorMessage).ToList();
+                    rpta += "<ul class='list-group'>";
+                    foreach (var item in query)
+                    {
+                        rpta += "<li class='list-group-item'>" + item + "</li>";
+                    }
+                    rpta += "</ul>";
+                }
+                else
+                {
+                    using (var bd = new BDPasajeEntities())
+                    {
+                        //agregar
+                        if (titulo == -1)
+                        {
+                            RolPagina oRolPagina = new RolPagina();
+                            oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
+                            oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
+                            oRolPagina.BHABILITADO = 1;
+                            bd.RolPagina.Add(oRolPagina);
+                            rpta = bd.SaveChanges().ToString();//numero de registros afectado
+                            if (rpta == "0")
+                            {
+                                rpta = "";
+                            }
+
+                        }
+                        else
+                        {
+                            RolPagina oRolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA == titulo).First();
+                            oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
+                            oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
+                            rpta = bd.SaveChanges().ToString();
+                        }
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                rpta = "";
+            }
+            
+            
                 return rpta;
         }
-        public ActionResult Filtrar(int? iidrol)
+        public ActionResult Filtrar(int? iidrolFiltro)
         {
             listarComboRol();
             List<RolPaginaCLS> listaRol = new List<RolPaginaCLS>();
             using (var bd = new BDPasajeEntities())
             {
-                if (iidrol == null)
+                if (iidrolFiltro == null)
                 {
                     listaRol = (from rolpagina in bd.RolPagina
                                 join rol in bd.Rol
@@ -118,7 +156,7 @@ namespace AppWebTest.Controllers
                                 on rolpagina.IIDPAGINA equals
                                 pagina.IIDPAGINA
                                 where rolpagina.BHABILITADO == 1
-                                && rolpagina.IIDROL == iidrol
+                                && rolpagina.IIDROL == iidrolFiltro
                                 select new RolPaginaCLS
                                 {
                                     iidrolpagina = rolpagina.IIDROLPAGINA,
@@ -129,6 +167,18 @@ namespace AppWebTest.Controllers
                 
             }
             return PartialView("_TableRolPagina",listaRol);
+        }
+
+        public JsonResult recuperarInformacion(int idRolPagina)
+        {
+            RolPaginaCLS oRolPaginaCLS = new RolPaginaCLS();
+            using (var bd = new BDPasajeEntities())
+            {
+                RolPagina oRolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA == idRolPagina).First();
+                oRolPaginaCLS.iidrol = (int)oRolPagina.IIDROL;
+                oRolPaginaCLS.iidpagina = (int)oRolPagina.IIDPAGINA;
+            }
+            return Json(oRolPaginaCLS, JsonRequestBehavior.AllowGet);
         }
     }
 }

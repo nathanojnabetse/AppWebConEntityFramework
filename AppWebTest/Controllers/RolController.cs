@@ -127,5 +127,26 @@ namespace AppWebTest.Controllers
             }
             return Json(oRolCLS,JsonRequestBehavior.AllowGet);//objetoserializado, no se puedde enviar asi no mas un objeto a la vista
         }
+
+        public string eliminar(RolCLS oRolCLS)
+        {
+            string rpta = "";
+            try
+            {
+                int idrol = oRolCLS.iidRol;                
+                using (var bd = new BDPasajeEntities())
+                {
+                    Rol oRol = bd.Rol.Where(p => p.IIDROL == idrol).First();
+                    oRol.BHABILITADO = 0;
+                    rpta = bd.SaveChanges().ToString();
+                }
+            }
+            catch(Exception ex)
+            {
+                rpta = "";
+                Console.WriteLine(ex.Message);
+            }
+            return rpta;
+        }
     }
 }

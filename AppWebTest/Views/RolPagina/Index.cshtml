@@ -18,7 +18,7 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltrado" }))
 {
-    @Html.DropDownList("iidrol", listaRol, new { @class = "form-control" })
+    @Html.DropDownList("iidrolFiltro", listaRol, new { @class = "form-control" })
     <div id="divRolPagina">
         @Html.Partial("_TableRolPagina", Model)
     </div>
@@ -37,15 +37,13 @@
             @using (Ajax.BeginForm("Guardar", "RolPagina", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnSuccess = "Guardar"
+                OnSuccess = "Guardar",
+                UpdateTargetId = "divRolPaginaError",
+                InsertionMode = InsertionMode.Replace
             }))
             {
                 @Html.Hidden("titulo")
                 <div class="modal-body">
-                    <div>
-                        @Html.Label("id Rol pagina")
-                        @Html.TextBox("iidrolpagina", null, new { @class = "form-control", @readOnly = true })
-                    </div>
                     <div>
                         @Html.Label("Nombre Rol")
                         @Html.DropDownList("iidrol", listaRol, new { @class = "form-control" })
@@ -60,6 +58,7 @@
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Understood</button>
                 </div>
+                <div id="divRolPaginaError"></div>
             }
 
         </div>
@@ -67,17 +66,19 @@
 </div>
 
 <script>
-    var iidrol = document.getElementById("iidrol");
+    var iidrol = document.getElementById("iidrolFiltro");
     iidrol.onchange = function () {
         $("#frmFiltrado").trigger("submit");
     }
 
     function Agregar() {
-        document.getElementById("titulo").value = 1;
+        
+        document.getElementById("titulo").value = -1;
+        Limpiar();
 
     }
     function Guardar(rpta) {
-        if (rpta == 1) {
+        if (rpta == "1"  || rpta =="0") {
             $("#frmFiltrado").trigger("submit");
             alert("se ejecto correctamente");
             document.getElementById("btnClose").click();
@@ -88,10 +89,26 @@
         }
     }
 
-    function Editar(idpagina) {
-        document.getElementById("titulo").value = idpagina;
+    function Editar(idrolPagina) {    
+        //Limpiar();
+        document.getElementById("titulo").value = idrolPagina;
+        $.get("RolPagina/recuperarInformacion/?idRolPagina=" + idrolPagina, function (data) {
+            document.getElementById("iidrol").value = data.iidrol
+            document.getElementById("iidpagina").value = data.iidpagina;
+          
+        
+        })
+    document.getElementById("titulo").value = idrolPagina;
     }
 
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i <= controles.length; i++) {
+            control = controles[i];
+            control.value = "";
+        }
+    }
 </script>
 
 

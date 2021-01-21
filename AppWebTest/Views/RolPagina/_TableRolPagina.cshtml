@@ -7,16 +7,22 @@
             <td>@Html.LabelFor(p => Model[0].iidrolpagina)</td>
             <td>@Html.LabelFor(p => Model[0].nombreRol)</td>
             <td>@Html.LabelFor(p => Model[0].nombreMensaje)</td>
+            <td>Operaciones</td>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.iidrolpagina</td>
-                <td>@item.nombreRol</td>
-                <td>@item.nombreMensaje</td>
-            </tr>
+        <tr>
+            <td>@item.iidrolpagina</td>
+            <td>@item.nombreRol</td>
+            <td>@item.nombreMensaje</td>
+            <td>
+                <button type="button" onclick="Editar(@item.iidrolpagina)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#staticBackdrop">
+                </button>
+            </td>
+            
+        </tr>
         }
     </tbody>
 </table>
