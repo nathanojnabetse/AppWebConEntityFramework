@@ -25,6 +25,24 @@
 }
 
 <!-- Modal -->
+<div class="modal fade" id="exampleModalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-info">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -72,13 +90,13 @@
     }
 
     function Agregar() {
-        
+
         document.getElementById("titulo").value = -1;
         Limpiar();
 
     }
     function Guardar(rpta) {
-        if (rpta == "1"  || rpta =="0") {
+        if (rpta == "1" || rpta == "0") {
             $("#frmFiltrado").trigger("submit");
             alert("se ejecto correctamente");
             document.getElementById("btnClose").click();
@@ -89,16 +107,16 @@
         }
     }
 
-    function Editar(idrolPagina) {    
+    function Editar(idrolPagina) {
         //Limpiar();
         document.getElementById("titulo").value = idrolPagina;
         $.get("RolPagina/recuperarInformacion/?idRolPagina=" + idrolPagina, function (data) {
             document.getElementById("iidrol").value = data.iidrol
             document.getElementById("iidpagina").value = data.iidpagina;
-          
-        
+
+
         })
-    document.getElementById("titulo").value = idrolPagina;
+        document.getElementById("titulo").value = idrolPagina;
     }
 
     function Limpiar() {
@@ -108,6 +126,25 @@
             control = controles[i];
             control.value = "";
         }
+    }
+
+    function Eliminar(iidRolpagina) {
+        document.getElementById("titulo").value = iidRolpagina;
+    }
+
+    function EliminarRegistro() {
+        var titulo = document.getElementById("titulo").value;
+        $.get("eliminarRolPagina/?iidrolpagina=" + titulo, function (data) {
+            if (data == 1) {
+                alert("Se ejecuto correctamente")
+                $("#frmFiltrado").trigger("submit");
+                document.getElementById("btnCerrarConfirmacion").click();
+
+            }
+            else {
+                alert("ocurrio un ERROR")
+            }
+        });
     }
 </script>
 

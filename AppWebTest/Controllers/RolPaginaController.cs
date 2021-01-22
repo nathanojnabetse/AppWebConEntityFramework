@@ -180,5 +180,25 @@ namespace AppWebTest.Controllers
             }
             return Json(oRolPaginaCLS, JsonRequestBehavior.AllowGet);
         }
+
+        public int eliminarRolPagina(int iidrolpagina)
+        {
+            int rpta = 0;
+            try
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    RolPagina oRolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA == iidrolpagina).First();
+                    oRolPagina.BHABILITADO = 0;
+                    rpta = bd.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return rpta;
+        }
     }
 }

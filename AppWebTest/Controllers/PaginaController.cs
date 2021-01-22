@@ -134,5 +134,26 @@ namespace AppWebTest.Controllers
             }
             return Json(oPaginaCLS, JsonRequestBehavior.AllowGet);
         }
+
+        public int eliminarPagina(int iidpagina)
+        {
+            int rpta = 0;
+            try
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    Pagina oPagina = bd.Pagina.Where(p => p.IIDPAGINA == iidpagina).First();
+                    oPagina.BHABILITADO = 0;
+                    rpta = bd.SaveChanges();
+                }
+                    
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return rpta;
+        }
+            
     }
 }

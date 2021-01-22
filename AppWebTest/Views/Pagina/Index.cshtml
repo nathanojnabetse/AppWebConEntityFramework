@@ -23,7 +23,7 @@
         @Html.Label("Ingrese mensaje")
         @Html.TextBox("mensajeFiltro")
 
-        
+
 
         <div id="divPagina">
             @Html.Partial("_TablaPagina", Model)
@@ -32,6 +32,25 @@
 
 
 </p>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-info">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -47,12 +66,12 @@
             {
                 HttpMethod = "POST",
                 OnSuccess = "Guardar",
-                InsertionMode=InsertionMode.Replace,
-                UpdateTargetId="divError"
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "divError"
             }))
             {
                 @Html.Hidden("titulo")
-                <div class="modal-body">                    
+                <div class="modal-body">
                     <div>
                         @Html.Label("Mensaje")
                         @Html.TextBox("mensaje", null, new { @class = "form-control" })
@@ -82,9 +101,10 @@
 
 <script>
     var frmFiltrado = document.getElementById("frmFiltrado");
-    var mensaje = document.getElementById("mensaje");
+    var mensaje = document.getElementById("mensajeFiltro");
     mensaje.onkeyup = function () {
         $("#frmFiltrado").trigger("submit");
+        console.log("AAA")
     }
     //frmFiltrado.onsubmit = function () {
     //    $("#frmFiltrado").trigger("submit");
@@ -93,15 +113,15 @@
     function Agregar() {
         Limpiar();
         document.getElementById("titulo").value = "-1";
-       
+
     }
 
     function Guardar(result) {
-        if (result == "1" || result =="0") {
+        if (result == "1" || result == "0") {
             $("#frmFiltrado").trigger("submit");
             document.getElementById("btnClose").click();
             alert("se ejecuto correctamente");
-            
+
         }
         else {
             alert("ocurrio un error")
@@ -109,14 +129,14 @@
     }
 
     function Editar(idPagina) {
-        
+
         $.get("Pagina/recuperarInformacion/?idPagina=" + idPagina, function (data) {
             document.getElementById("mensaje").value = data.mensaje;
             document.getElementById("accion").value = data.accion;
             document.getElementById("controlador").value = data.controlador;
         })
         document.getElementById("titulo").value = idPagina;
-        Limpiar(); 
+        Limpiar();
     }
 
     function Limpiar() {
@@ -126,6 +146,23 @@
             control = controles[i];
             control.value = " ";
         }
+    }
+
+    function Eliminar(iidpagina) {
+        document.getElementById("titulo").value = iidpagina;
+    }
+
+    function EliminarRegistro() {
+        var iidpagina = document.getElementById("titulo").value;
+        $.get("eliminarPagina/?iidpagina=" + iidpagina, function (data) {
+            if (data == 1) {//todo correcto
+                alert("Se ejecuto correctamente")
+                $("#frmFiltrado").trigger("submit");
+                document.getElementById("btnCerrarConfirmacion").click();
+               
+            }
+        });
+
     }
 </script>
 
