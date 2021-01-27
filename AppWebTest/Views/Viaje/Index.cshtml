@@ -3,29 +3,154 @@
 
 @{
     ViewBag.Title = "Index";
+    List<SelectListItem> listaLugar = (List<SelectListItem>)ViewBag.listaLugar;
+    List<SelectListItem> listaBus = (List<SelectListItem>)ViewBag.listaBus;
 }
 
 <h2>Index</h2>
-@Html.ActionLink("Agregar","Agregar","Viaje",null,new { @class="btn btn-primary"})
-<table class=" table table-hover table-bordered">
-    <tr>
-        <td>@Html.LabelFor(p => Model[0].iidViaje)</td>
-        <td>@Html.LabelFor(p => Model[0].nombreLugarOrigen)</td>
-        <td>@Html.LabelFor(p => Model[0].nombreLugarDestino)</td>
-        <td>@Html.LabelFor(p => Model[0].nombreBus)</td>
-        <td>Operaciones</td>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.iidViaje</td>
-            <td>@item.nombreLugarOrigen</td>
-            <td>@item.nombreLugarDestino</td>
-            <td>@item.nombreBus</td>
-            <td>
-                @Html.ActionLink(" ", "Editar", "Viaje", new { id = @item.iidViaje }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
-                @Html.ActionLink(" ", "Eliminar", "Viaje", new { id = @item.iidViaje }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
-            </td>
-        </tr>
+
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+    Agregar
+</button>
+
+@using (Ajax.BeginForm("Filtrar", "Viaje", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "divViaje",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltrar" }))
+{
+    @Html.Label("Ingrese lugar destino")
+    @Html.DropDownList("lugarDestinoParametro",listaLugar,new {@class="form-control" })
+    <div id="divViaje">
+        @Html.Partial("_TablaViaje", Model)
+    </div>
+    
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("Guardar", "Viaje", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "Guardar",
+                UpdateTargetId = "error"
+            },new { enctype="multipart/form-data"}))
+            {
+                @Html.Hidden("titulo")
+        <div class="modal-body">
+            <div>
+                @Html.Label("Lugar de origen")
+                @Html.DropDownList("iidLugarOrigen", listaLugar, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Lugar de Destino")
+                @Html.DropDownList("iidLugarDestino", listaLugar, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Precio")
+                @Html.Editor("precio", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            </div>
+            <div>
+                @Html.Label("Fecha de viaje")
+                @Html.Editor("fechaViaje", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            </div>
+            <div>
+                @Html.Label("Bus")
+                @Html.DropDownList("iidBus", listaBus, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Numero de asientos")
+                @Html.Editor("numeroAsientosDisponibles", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            </div>
+            <div>
+                @Html.Label("Foto")
+                <img width="150" height="150" id="imgFoto" style="display:block" />
+                @Html.TextBox("foto", "", new { type = "file", id = "fupFoto" })
+            </div>
+            <div>
+                @Html.Hidden("nombreFoto")
+            </div>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Understood</button>
+                </div>
+
+            }
+            <div id="error"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var ncontroles = controles.length;
+        for (i = 0; i < ncontroles; i++) {
+            controles[i].value = "";
+        }
+        document.getElementById("imgFoto").src = "";
+        document.getElementById("error").innerHTML = "";
     }
-</table>
+
+    var lugarDestinoParametro = document.getElementById("lugarDestinoParametro");
+    lugarDestinoParametro.onchange = function () {
+        $("#frmFiltrar").trigger("submit");
+
+    }
+
+    function Agregar() {
+        Limpiar();
+        document.getElementById("titulo").value = -1;
+
+    }
+
+    function Editar(idViaje) {
+        document.getElementById("titulo").value = idViaje;
+        //pendiente
+        $.get("recuperarInformacion/?idViaje=" + idViaje, function (data) {
+            document.getElementById("iidLugarOrigen").value = data.iidLugarOrigen;
+            document.getElementById("iidLugarDestino").value = data.iidLugarDestino;
+            document.getElementById("precio").value = data.precio;
+            document.getElementById("fechaViaje").value = data.fechaViajeCadena;
+            document.getElementById("iidBus").value = data.iidBus;
+            document.getElementById("numeroAsientosDisponibles").value = data.numeroAsientosDisponibles;
+            document.getElementById("imgFoto").src = "data:image/" + data.extension + ";base64," + data.fotoRecuperarCadena;
+        })
+    }
+
+    function Guardar(rpta) {
+        if (rpta == "1") {
+            alert("Se ejecuto correctame")
+            document.getElementById("btnClose").click();
+        } else {
+            alert("Ocurrió un error")
+        }
+        
+    }
+
+    var imgFoto = document.getElementById("imgFoto");
+    var fupFoto = document.getElementById("fupFoto");
+    fupFoto.onchange = function () {
+        var files = fupFoto.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            imgFoto.src = reader.result;
+            document.getElementById("nombreFoto").value = files.name;
+        }
+        reader.readAsDataURL(files);
+    }
+
+</script>

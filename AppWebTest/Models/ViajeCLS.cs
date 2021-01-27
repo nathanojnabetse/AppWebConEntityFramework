@@ -19,7 +19,7 @@ namespace AppWebTest.Models
         [Display(Name = "Precio")]
         [Required]
         [Range(0,100000,ErrorMessage ="Rango fuera de indices")]
-        public double precio { get; set; }
+        public decimal precio { get; set; }
         [Display(Name = "Fecha Viaje")]
         [DataType(DataType.Date)]
         [Required]
@@ -30,7 +30,7 @@ namespace AppWebTest.Models
         public int iidBus { get; set; }
         [Display(Name = "Numero de ASientos Disponibles")]
         [Required]
-        public int numero { get; set; }
+        public int numeroAsientosDisponibles { get; set; }
         //Propiedades adicionales
         [Display(Name ="Lugar Origen")]
         public string nombreLugarOrigen { get; set; }
@@ -38,5 +38,15 @@ namespace AppWebTest.Models
         public string nombreLugarDestino { get; set; }
         [Display(Name = "Nombre bus")]
         public string nombreBus { get; set; }
+
+        public string nombreFoto { get; set; }
+
+        public string mensaje { get; set; }
+
+        public string fechaViajeCadena { get; set; }
+        
+        public string extension { get; set; }
+
+        public string fotoRecuperarCadena { get; set; }
     }
 }
