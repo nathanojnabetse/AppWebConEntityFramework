@@ -96,7 +96,7 @@ namespace AppWebTest.Controllers
                                  select error.ErrorMessage).ToList();
                     
 
-                    if(foto == null)
+                    if(foto == null && titulo == -1)
                     {
                         oViajeCLS.mensaje = "la foto es obligatoria";
                         mensaje += "<ul><li> Debe ingresar la foto </li></ul>";
@@ -140,6 +140,21 @@ namespace AppWebTest.Controllers
                             {
                                 mensaje = "";
                             }
+                        }
+                        else
+                        {
+                            Viaje oViaje = bd.Viaje.Where(p => p.IIDVIAJE == titulo).First();
+                            oViaje.IIDLUGARDESTINO = oViajeCLS.iidLugarDestino;
+                            oViaje.IIDLUGARORIGEN = oViajeCLS.iidLugarOrigen;
+                            oViaje.PRECIO = oViajeCLS.precio;
+                            oViaje.FECHAVIAJE = oViajeCLS.fechaViaje;
+                            oViaje.NUMEROASIENTOSDISPONIBLES = oViajeCLS.numeroAsientosDisponibles;
+                            if (foto != null)
+                            {
+                                oViaje.FOTO = fotoBD;
+                            }
+                            mensaje = bd.SaveChanges().ToString();
+                            
                         }
                     }
                 }
@@ -224,6 +239,27 @@ namespace AppWebTest.Controllers
             }
 
             return Json(oViajeCLS, JsonRequestBehavior.AllowGet);
+        }
+
+        public int EliminarViaje(int idViaje)
+        {
+            int nregistrosAfectados = 0;
+
+            try
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    Viaje oViaje = bd.Viaje.Where(p => p.IIDVIAJE == idViaje).First();
+                    oViaje.BHABILITADO = 0;
+                    nregistrosAfectados = bd.SaveChanges();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                nregistrosAfectados = 0;
+            }
+            return nregistrosAfectados;
         }
         
     }

@@ -22,11 +22,11 @@
 }, new { @id = "frmFiltrar" }))
 {
     @Html.Label("Ingrese lugar destino")
-    @Html.DropDownList("lugarDestinoParametro",listaLugar,new {@class="form-control" })
+    @Html.DropDownList("lugarDestinoParametro", listaLugar, new { @class = "form-control" })
     <div id="divViaje">
         @Html.Partial("_TablaViaje", Model)
     </div>
-    
+
 }
 
 
@@ -46,43 +46,43 @@
                 HttpMethod = "POST",
                 OnSuccess = "Guardar",
                 UpdateTargetId = "error"
-            },new { enctype="multipart/form-data"}))
+            }, new { enctype = "multipart/form-data" }))
             {
                 @Html.Hidden("titulo")
-        <div class="modal-body">
-            <div>
-                @Html.Label("Lugar de origen")
-                @Html.DropDownList("iidLugarOrigen", listaLugar, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.Label("Lugar de Destino")
-                @Html.DropDownList("iidLugarDestino", listaLugar, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.Label("Precio")
-                @Html.Editor("precio", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-            </div>
-            <div>
-                @Html.Label("Fecha de viaje")
-                @Html.Editor("fechaViaje", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-            </div>
-            <div>
-                @Html.Label("Bus")
-                @Html.DropDownList("iidBus", listaBus, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.Label("Numero de asientos")
-                @Html.Editor("numeroAsientosDisponibles", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-            </div>
-            <div>
-                @Html.Label("Foto")
-                <img width="150" height="150" id="imgFoto" style="display:block" />
-                @Html.TextBox("foto", "", new { type = "file", id = "fupFoto" })
-            </div>
-            <div>
-                @Html.Hidden("nombreFoto")
-            </div>
-        </div>
+                <div class="modal-body">
+                    <div>
+                        @Html.Label("Lugar de origen")
+                        @Html.DropDownList("iidLugarOrigen", listaLugar, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Lugar de Destino")
+                        @Html.DropDownList("iidLugarDestino", listaLugar, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Precio")
+                        @Html.Editor("precio", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
+                    <div>
+                        @Html.Label("Fecha de viaje")
+                        @Html.Editor("fechaViaje", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    </div>
+                    <div>
+                        @Html.Label("Bus")
+                        @Html.DropDownList("iidBus", listaBus, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Numero de asientos")
+                        @Html.Editor("numeroAsientosDisponibles", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
+                    <div>
+                        @Html.Label("Foto")
+                        <img width="150" height="150" id="imgFoto" style="display:block" />
+                        @Html.TextBox("foto", "", new { type = "file", id = "fupFoto" })
+                    </div>
+                    <div>
+                        @Html.Hidden("nombreFoto")
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Understood</button>
@@ -90,6 +90,25 @@
 
             }
             <div id="error"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="ConfirmarAgregar()" class="btn btn-info">Aceptar</button>
+            </div>
         </div>
     </div>
 </div>
@@ -114,7 +133,7 @@
     function Agregar() {
         Limpiar();
         document.getElementById("titulo").value = -1;
-
+        console.log("Agregar")
     }
 
     function Editar(idViaje) {
@@ -136,9 +155,10 @@
             alert("Se ejecuto correctame")
             document.getElementById("btnClose").click();
         } else {
-            alert("Ocurrió un error")
+            alert("Ocurrió un error CCCCC")
         }
-        
+        $("#frmFiltrar").trigger("submit");
+
     }
 
     var imgFoto = document.getElementById("imgFoto");
@@ -153,4 +173,21 @@
         reader.readAsDataURL(files);
     }
 
+    function ConfirmarAgregar() {
+        var idViaje = document.getElementById("titulo").value;
+        $.get("EliminarViaje/?idViaje=" + idViaje, function (data) {
+            if (data == 1) {
+                alert("se ejecuto correctamente")
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltrar").trigger("submit");
+            }
+            else {
+                alert("Ocurrio un error")
+            }
+        })
+    }
+
+    function Eliminar(idViaje) {
+        document.getElementById("titulo").value = idViaje;
+    }
 </script>
