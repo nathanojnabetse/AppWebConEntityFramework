@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AppWebTest.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace AppWebTest.Controllers
 {
@@ -28,6 +31,8 @@ namespace AppWebTest.Controllers
                                       nombre = marca.NOMBRE,
                                       descripcion = marca.DESCRIPCION
                                   }).ToList();
+                    //guardar lista amrca en un session para los pdfs
+                    Session["lista"] = listaMarca;
                 }
                 else //aqui se pone un filtro con nombreMArca, el filtrado es con un boton
                 {
@@ -40,6 +45,7 @@ namespace AppWebTest.Controllers
                                       nombre = marca.NOMBRE,
                                       descripcion = marca.DESCRIPCION
                                   }).ToList();
+                    Session["lista"] = listaMarca;
                 }
                 
             }
@@ -154,6 +160,65 @@ namespace AppWebTest.Controllers
             return RedirectToAction("Index");
         }
 
+        public FileResult generarPDF()
+        {
+            Document doc = new Document();
+            byte[] buffer;
 
+            using(MemoryStream ms = new MemoryStream())
+            {
+                PdfWriter.GetInstance(doc, ms);//guardar el doc en memoria
+                doc.Open();
+                Paragraph title = new Paragraph("Lista Marca");
+                title.Alignment = Element.ALIGN_CENTER;
+                doc.Add(title);//añadido al documento 
+
+                Paragraph espacio = new Paragraph("Espacio");
+                doc.Add(espacio);
+
+                //Columnas
+                PdfPTable table = new PdfPTable(3);//tabla de 3 col
+                float[] values = new float[3] { 30, 40, 80 }; //anchos de col
+                table.SetWidths(values);//anchos asignados a la tabla
+                //creando las Celdas 
+                //creando celdas y poniendo color ademas dealinear el contenido al centro
+                PdfPCell celda1 = new PdfPCell(new Phrase("id Marca"));
+                celda1.BackgroundColor = new BaseColor(130, 130, 130);
+                celda1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                table.AddCell(celda1);
+
+                PdfPCell celda2 = new PdfPCell(new Phrase("Nombre"));
+                celda2.BackgroundColor = new BaseColor(130, 130, 130);
+                celda2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                table.AddCell(celda2);
+
+                PdfPCell celda3 = new PdfPCell(new Phrase("Descripcion"));
+                celda3.BackgroundColor = new BaseColor(130, 130, 130);
+                celda3.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                table.AddCell(celda3);
+
+                List<MarcaCLS> lista = (List<MarcaCLS>)Session["lista"];
+                int nregistros = lista.Count;
+                for(int i=0; i<nregistros;i++)
+                {
+                    table.AddCell(lista[i].idMarca.ToString());
+                    table.AddCell(lista[i].nombre);
+                    table.AddCell(lista[i].descripcion);
+                }
+
+
+                doc.Add(table);
+                doc.Close();
+                //usar un sesion es una variable (suoper global)que vive en la app y se puede llamardesde cualquier controlados
+
+
+
+                buffer = ms.ToArray();//obtenerlo para usarlo en el buffer
+
+
+            }
+
+            return File(buffer, "application/pdf");            
+        }
     }
 }

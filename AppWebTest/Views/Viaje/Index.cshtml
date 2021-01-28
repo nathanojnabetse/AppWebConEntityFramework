@@ -139,7 +139,7 @@
     function Editar(idViaje) {
         document.getElementById("titulo").value = idViaje;
         //pendiente
-        $.get("recuperarInformacion/?idViaje=" + idViaje, function (data) {
+        $.get("Viaje/recuperarInformacion/?idViaje=" + idViaje, function (data) {
             document.getElementById("iidLugarOrigen").value = data.iidLugarOrigen;
             document.getElementById("iidLugarDestino").value = data.iidLugarDestino;
             document.getElementById("precio").value = data.precio;
