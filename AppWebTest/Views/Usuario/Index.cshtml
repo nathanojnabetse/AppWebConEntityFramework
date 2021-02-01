@@ -14,21 +14,21 @@
     Agregar
 </button>
 
-@using (Ajax.BeginForm("Filtrar","Usuario",null,
+@using (Ajax.BeginForm("Filtrar", "Usuario", null,
     new AjaxOptions
     {
-        HttpMethod="POST",
+        HttpMethod = "POST",
         UpdateTargetId = "divUsuario",
         InsertionMode = InsertionMode.Replace
-    }, new { @id="frmFiltrado"}))
+    }, new { @id = "frmFiltrado" }))
 {
 
     @Html.Label("Ingrese nombre de la persona")
-    @Html.TextBox("nombrePersona",null, new {@class="form-control" })
+    @Html.TextBox("nombrePersona", null, new { @class = "form-control" })
     <div id="divUsuario">
         @Html.Partial("_TablaUsuario", Model)
     </div>
-    
+
 }
 
 
@@ -45,25 +45,23 @@
             @using (Ajax.BeginForm("Guardar", "Usuario", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnSuccess = "Guardar"
+                OnSuccess = "Guardar",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "divError"
             }))
             {
                 @Html.Hidden("titulo")
-                @Html.Hidden("nombrePersona")
+                @Html.Hidden("nombrePersonaEnviar")
                 <div class="modal-body">
-                    <div>
-                        @Html.Label("id usuario")
-                        @Html.TextBox("iidusuario", null, new { @class = "form-control", @readOnly = true })
-                    </div>
                     <div>
                         @Html.Label("Nombre Usuario")
                         @Html.TextBox("nombreusuario", null, new { @class = "form-control" })
                     </div>
-                    <div>
+                    <div id="divContraOcultar">
                         @Html.Label("Contraseña")
                         @Html.Password("contra", null, new { @class = "form-control" })
                     </div>
-                    <div>
+                    <div id="divUsuarioOcultar">
                         @Html.Label("Nombre Persona")
                         @Html.DropDownList("iid", listaPersonas, new { @class = "form-control" })
                     </div>
@@ -78,19 +76,45 @@
                     <button type="submit" class="btn btn-primary">Understood</button>
                 </div>
             }
+            <div id="divError">
 
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalConfirmacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="padding:1em">
+                <button type="button" id="btnCerrarConfirmacion" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-info">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function Agregar() {
-        document.getElementById("titulo").value = "1";
+
+        document.getElementById("titulo").value = "-1";
+        document.getElementById("divContraOcultar").style.display = "block";
+        document.getElementById("divUsuarioOcultar").style.display = "block";
+        Limpiar();
     }
 
     var iid = document.getElementById("iid");
     iid.onchange = function () {
-        document.getElementById("nombrePersona").value = iid.options[iid.selectedIndex].text;
+        document.getElementById("nombrePersonaEnviar").value = iid.options[iid.selectedIndex].text;
     }
 
     function Guardar(rpta) {
@@ -108,5 +132,64 @@
     nombrepersona.onkeyup = function () {
         $("#frmFiltrado").trigger("submit");
     }
+
+
+    function Editar(id) {
+        Limpiar();
+        //document.getElementById("divError").innerHTML = "";
+        $.get("recuperarInformacion/?iidusuario=" + id, function (data) {
+            document.getElementById("nombreusuario").value = data.nombreusuario;
+            document.getElementById("iidrol").value = data.iidrol;
+            document.getElementById("contra").value = "1";
+            document.getElementById("iid").value = "1";
+
+        })
+        document.getElementById("titulo").value = id;
+        document.getElementById("divContraOcultar").style.display = "none";
+        document.getElementById("divUsuarioOcultar").style.display = "none";
+
+    }
+
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i < controles.length; i++) {
+            control = controles[i];
+            control.value = "";
+        }
+        document.getElementById("divError").innerHTML = "";
+    }
+
+    function Guardar(rpta) {
+        if (rpta == "0" || rpta == "1" || rpta == "2") {
+            $("#frmFiltrado").trigger("submit");
+            alert("Se ejecuto correctamente")
+            document.getElementById("btnClose").click();
+        }
+        else {
+            alert("Ocurrio un error");
+        }
+
+    }
+
+    //Esta abre el pop up
+    function Eliminar(iidusuario) {
+        document.getElementById("titulo").value = iidusuario;
+
+    }
+
+    function EliminarRegistro() {
+        var iidUsuario = document.getElementById("titulo").value;
+        $.get("Usuario/Eliminar/?idUsuario=" + iidUsuario, function (data) {
+            if (data == 1) {
+                alert("Se ejecuto correctamente")
+                document.getElementById("btnCerrarConfirmacion").click();
+                $("#frmFiltrado").trigger("submit");
+            } else {
+                alert("Ocurrio un error");
+            }
+        })
+    }
+
 
 </script>

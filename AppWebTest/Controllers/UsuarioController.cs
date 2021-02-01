@@ -110,60 +110,103 @@ namespace AppWebTest.Controllers
                                 Text = item.NOMBRE ,
                                 Value = item.IIDROL.ToString()
                             }).ToList();
-
-                ViewBag.listaRol = listaRol;
+                listaRol.Insert(0, new SelectListItem { Text = "--Seleecione--", Value = "" });
+                
             }
+            ViewBag.listaRol = listaRol;
         }
 
-        public int Guardar(UsuarioCLS oUsuraioCLS, int titulo)
+        public string Guardar(UsuarioCLS oUsuraioCLS, int titulo)
         {
-            int rpta = 0;
+            //vacio es error
+            string rpta = "";
             try
             {
-                using (var bd = new BDPasajeEntities())
-                {
-                    using (var transaccion = new TransactionScope())
-                    {
-                        if (titulo == 1)
-                        {
-                            Usuario oUsuario = new Usuario();
-                            oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
-                            // cifrado
-                            SHA256Managed sha = new SHA256Managed();
-                            byte[] byteContra = Encoding.Default.GetBytes(oUsuraioCLS.contra);
-                            byte[] byteContraCifrado = sha.ComputeHash(byteContra);
-                            string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
-                            oUsuario.CONTRA = cadenaContraCifrada;
-                            oUsuario.TIPOUSUARIO = oUsuraioCLS.nombrePersona.Substring(oUsuraioCLS.nombrePersona.Length - 2, 1);
-                            oUsuario.IID = oUsuraioCLS.iid;
-                            oUsuario.IIDROL = oUsuraioCLS.iidrol;
-                            oUsuario.bhabilitado = 1;
-                            bd.Usuario.Add(oUsuario);
-                            if(oUsuario.TIPOUSUARIO.Equals("C"))
-                            {
-                                Cliente ocliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(oUsuraioCLS.iid)).First();
-                                ocliente.bTieneUsuario = 1;
 
-                            }
-                            else
+                if (!ModelState.IsValid)
+                {
+                    var query = (from state in ModelState.Values//valores
+                                 from error in state.Errors//mensajes
+                                 select error.ErrorMessage).ToList();
+                    rpta += "<ul class='list-group'>";
+                    foreach (var item in query)
+                    {
+                        rpta += "<li class='list-group-item'>" + item + "</li>";
+                    }
+                    rpta += "</ul>";
+                }
+                else
+                {
+                    using (var bd = new BDPasajeEntities())
+                    {
+                        using (var transaccion = new TransactionScope())
+                        {
+                            if (titulo == -1) //agregar
                             {
-                                Empleado oEmpleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(oUsuraioCLS.iid)).First();
-                                oEmpleado.bTieneUsuario = 1;
+                                Usuario oUsuario = new Usuario();
+                                oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
+                                // cifrado
+                                SHA256Managed sha = new SHA256Managed();
+                                byte[] byteContra = Encoding.Default.GetBytes(oUsuraioCLS.contra);
+                                byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                                string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+                                oUsuario.CONTRA = cadenaContraCifrada;
+                                oUsuario.TIPOUSUARIO = oUsuraioCLS.nombrePersonaEnviar.Substring(oUsuraioCLS.nombrePersonaEnviar.Length - 2, 1);
+                                oUsuario.IID = oUsuraioCLS.iid;
+                                oUsuario.IIDROL = oUsuraioCLS.iidrol;
+                                oUsuario.bhabilitado = 1;
+                                bd.Usuario.Add(oUsuario);
+                                if (oUsuario.TIPOUSUARIO.Equals("C"))
+                                {
+                                    Cliente ocliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(oUsuraioCLS.iid)).First();
+                                    ocliente.bTieneUsuario = 1;
+
+                                }
+                                else
+                                {
+                                    Empleado oEmpleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(oUsuraioCLS.iid)).First();
+                                    oEmpleado.bTieneUsuario = 1;
+                                }
+                                rpta = bd.SaveChanges().ToString();
+                                if (rpta == "0")
+                                {
+                                    rpta = "";
+                                }
+                                transaccion.Complete();
                             }
-                            rpta = bd.SaveChanges();
-                            transaccion.Complete();
+                            else //Editar
+                            {
+                                //pprimero recuperar buscar por id
+                                Usuario oUsuario = bd.Usuario.Where(p => p.IIDUSUARIO == titulo).First();
+                                oUsuario.IIDROL = oUsuraioCLS.iidrol;
+                                oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
+                                rpta = bd.SaveChanges().ToString();
+                                transaccion.Complete();
+                            }
                         }
                     }
-
-                        
-                }
+                }                
             }
             catch(Exception ex)
             {
-                rpta = 0;
+                Console.WriteLine(ex.Message);
+                rpta = "";
             }            
 
             return rpta;
+        }
+
+        public JsonResult recuperarInformacion(int iidUsuario)
+        {
+            UsuarioCLS oUsuarioCLS = new UsuarioCLS();
+            int idUsuario = oUsuarioCLS.iidusuario;
+            using (var bd = new BDPasajeEntities())
+            {
+                Usuario oUsuario = bd.Usuario.Where(p => p.IIDUSUARIO == iidUsuario).First();
+                oUsuarioCLS.nombreusuario = oUsuario.NOMBREUSUARIO;               
+                oUsuarioCLS.iidrol = (int)oUsuario.IIDROL;
+            }
+            return Json(oUsuarioCLS,JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Filtrar(UsuarioCLS oUsuarioCLS)
@@ -265,6 +308,29 @@ namespace AppWebTest.Controllers
             }
 
             return PartialView("_TablaUsuario",listaUsuario);
+        }
+
+        public int Eliminar(int idUsuario)
+        {
+            int rpta = 0;
+            try
+            {
+                using (BDPasajeEntities bd = new BDPasajeEntities())
+                {
+                    Usuario oUsuario = bd.Usuario.Where(p => p.IIDUSUARIO == idUsuario).First();
+                    oUsuario.bhabilitado = 0;
+                    rpta = bd.SaveChanges();
+
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                rpta = 0;
+            }
+            
+
+            return rpta;
         }
     }      
        

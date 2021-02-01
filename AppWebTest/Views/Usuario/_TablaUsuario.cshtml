@@ -9,18 +9,25 @@
             <th>Nombre usuario</th>
             <th>Nombre Rol</th>
             <th>Tipo USuario</th>
+            <th>Operaciones</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.iidusuario</td>
-                <td>@item.nombrePersona</td>
-                <td>@item.nombreusuario</td>
-                <td>@item.nombreRol</td>
-                <td>@item.nombreTipoEmpleado</td>
-            </tr>
+        <tr>
+            <td>@item.iidusuario</td>
+            <td>@item.nombrePersona</td>
+            <td>@item.nombreusuario</td>
+            <td>@item.nombreRol</td>
+            <td>@item.nombreTipoEmpleado</td>
+            <td>
+                <button type="button" onclick="Editar(@item.iidusuario)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#staticBackdrop">
+                </button>
+                <button type="button" onclick="Eliminar(@item.iidusuario)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#exampleModalConfirmacion">
+                </button>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

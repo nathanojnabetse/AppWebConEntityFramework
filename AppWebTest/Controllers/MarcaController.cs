@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,8 @@ using System.Web.Mvc;
 using AppWebTest.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace AppWebTest.Controllers
 {
@@ -219,6 +222,53 @@ namespace AppWebTest.Controllers
             }
 
             return File(buffer, "application/pdf");            
+        }
+
+        public FileResult generarExcel()
+        {
+            byte[] buffer;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                //Todo el documento
+                ExcelPackage ep = new ExcelPackage();
+                //una hoja asociaada al doc
+                ep.Workbook.Worksheets.Add("Reporte");
+                //ExcelWorksheet ew = ep.Workbook.Worksheets[1];
+                var currentSheet = ep.Workbook.Worksheets;
+
+                var ew = currentSheet.First();
+                //nombre de las columnas
+                ew.Cells[1, 1].Value = "Id Marca";
+                ew.Cells[1, 2].Value = "Nombre";
+                ew.Cells[1, 3].Value = "Descripcion";
+
+                ew.Column(1).Width = 20;
+                ew.Column(2).Width = 40;
+                ew.Column(3).Width = 180;
+
+                using (var range = ew.Cells[1,1,1,3])
+                {
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Font.Color.SetColor(Color.White);
+                    range.Style.Fill.BackgroundColor.SetColor(Color.DarkRed);
+
+                }
+                List<MarcaCLS> lista = (List<MarcaCLS>)Session["lista"];
+                int nregistros = lista.Count;
+
+                for(int i = 0; i < nregistros; i++ )
+                {
+                    ew.Cells[i + 2, 1].Value = lista[i].idMarca;
+                    ew.Cells[i + 2, 2].Value = lista[i].nombre;
+                    ew.Cells[i + 2, 3].Value = lista[i].descripcion;
+                }
+
+                ep.SaveAs(ms);
+
+                buffer = ms.ToArray();
+            }
+
+                return File(buffer, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
     }
 }

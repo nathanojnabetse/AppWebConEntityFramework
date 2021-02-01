@@ -116,6 +116,7 @@ namespace AppWebTest.Controllers
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 rpta = "";
             }
             

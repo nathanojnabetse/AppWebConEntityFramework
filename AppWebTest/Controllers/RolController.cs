@@ -83,32 +83,57 @@ namespace AppWebTest.Controllers
                 {//devuleve 1 es correcto
                     using (var bd = new BDPasajeEntities())
                     {
+                        int cantidad = 0;
+
                         if (titulo.Equals(-1))//guardar
                         {
-                            Rol oRol = new Rol();
-                            oRol.NOMBRE = oRolCLS.nombre;
-                            oRol.DESCRIPCION = oRolCLS.descripcion;
-                            oRol.BHABILITADO = 1;
-                            bd.Rol.Add(oRol);
-                            respuesta = bd.SaveChanges().ToString();
-                            if (respuesta == "0")//no se agrego nada
+                            //ver si se repite el nombre
+                            cantidad = bd.Rol.Where(p => p.NOMBRE == oRolCLS.nombre).Count();
+
+                            if (cantidad >= 1)
                             {
-                                respuesta = "";
+                                //-1 ya existe en la bdd
+                                respuesta = "-1";
                             }
+                            else
+                            {
+                                Rol oRol = new Rol();
+                                oRol.NOMBRE = oRolCLS.nombre;
+                                oRol.DESCRIPCION = oRolCLS.descripcion;
+                                oRol.BHABILITADO = 1;
+                                bd.Rol.Add(oRol);
+                                respuesta = bd.SaveChanges().ToString();
+                                if (respuesta == "0")//no se agrego nada
+                                {
+                                    respuesta = "";
+                                }
+                            }                           
                         }
                         else//editar
                         {
-                            //obtener todo el registro por id
-                            Rol oRol = bd.Rol.Where(p => p.IIDROL == titulo).First();
-                            oRol.NOMBRE = oRolCLS.nombre;
-                            oRol.DESCRIPCION = oRolCLS.descripcion;
-                            respuesta = bd.SaveChanges().ToString();
+                            cantidad = bd.Rol.Where(p => p.NOMBRE == oRolCLS.nombre && p.IIDROL != titulo).Count();
+                            if (cantidad >= 1)
+                            {
+                                //-1 ya existe en la bdd
+                                respuesta = "-1";
+                            }
+                            else
+                            {
+                                
+
+                                //obtener todo el registro por id
+                                Rol oRol = bd.Rol.Where(p => p.IIDROL == titulo).First();
+                                oRol.NOMBRE = oRolCLS.nombre;
+                                oRol.DESCRIPCION = oRolCLS.descripcion;
+                                respuesta = bd.SaveChanges().ToString();
+                            }
                         }
                     }
                 }
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 respuesta = "";
             }
             

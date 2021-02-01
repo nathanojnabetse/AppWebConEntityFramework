@@ -81,3 +81,8 @@ C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\obj\Debug\AppW
 C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\obj\Debug\AppWebTest.dll
 C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\obj\Debug\AppWebTest.pdb
 C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\itextsharp.dll
+C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\EPPlus.dll
+C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\System.ComponentModel.Annotations.dll
+C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\EPPlus.xml
+C:\Users\JONA\Documents\CURSO ASP.NET UDEMY\AppWebTest\AppWebTest\bin\Microsoft.IO.RecyclableMemoryStream.xml

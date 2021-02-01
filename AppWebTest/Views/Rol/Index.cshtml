@@ -106,7 +106,14 @@
             alert("Se guardo correctamente");
         }
         else {
-            alert("Ocurrio un error");
+            if (resultado == "-1") {
+                alert("Ya existe en la base de datos")
+                document.getElementById("error").innerHTML = "";
+            }
+            else {
+                alert("Ocurrio un error")
+            }
+           
         }
     }
     //id de la fila seleccionada
