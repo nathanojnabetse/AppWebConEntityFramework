@@ -1,4 +1,5 @@
-﻿using AppWebTest.Models;
+﻿using AppWebTest.Clases_Auxiliares;
+using AppWebTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,6 +98,62 @@ namespace AppWebTest.Controllers
             Session["Usuario"] = null;
             Session["Rol"] = null;
             return RedirectToAction("Index");
+        }
+
+        public string RecuperarContra(string IIDTIPO, string correo, string telefonoCelular)
+        {
+            string mensaje = "";
+            using (var bd = new BDPasajeEntities())
+            {
+                int cantidad = 0;
+                int iidcliente;
+                if(IIDTIPO=="C")
+                {
+                    //se ve si hay cliente con esa inffo
+                    cantidad=bd.Cliente.Where(p => p.EMAIL == correo && p.TELEFONOCELULAR == telefonoCelular).Count();
+                }
+                if(cantidad==0)
+                {
+                    mensaje = "No existe un a persona registrada con esa informacion";
+                }
+                else
+                {
+                    iidcliente=bd.Cliente.Where(p => p.EMAIL == correo && p.TELEFONOCELULAR == telefonoCelular).First().IIDCLIENTE;
+                    //verificar si existe el usuario
+                    int nveces = bd.Usuario.Where(p => p.IID == iidcliente && p.TIPOUSUARIO == "C").Count();
+                    if(nveces==0)
+                    {
+                        mensaje = "No tiene usuario";
+                    }
+                    else
+                    {
+                        //obtener su id
+                        Usuario ousuario = bd.Usuario.Where(p => p.IID == iidcliente && p.TIPOUSUARIO == "C").First();
+                        //Modificar su clave
+                        Random ra = new Random();
+                        int n1 = ra.Next(0,9);
+                        int n2 = ra.Next(0, 9);
+                        int n3 = ra.Next(0, 9);
+                        int n4 = ra.Next(0, 9);
+
+                        string nuevaContra = (n1 + n2 + n3 + n4).ToString();
+                        //cifrar clave
+                        SHA256Managed sha = new SHA256Managed();
+                        byte[] byteContra = Encoding.Default.GetBytes(nuevaContra);
+                        byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                        string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+
+                        ousuario.CONTRA = cadenaContraCifrada;
+                        mensaje = bd.SaveChanges().ToString();
+
+                        Correo.enviarCorreo(correo, "Recuperar Clave","Se reseteo su clave, ahora su clave es : " +nuevaContra , "C:\\Users\\JONA\\Documents\\CURSO ASP.NET UDEMY\\AppWebTest\\AppWebTest\\Archivos\\PersonasCorreo.txt");
+                    }
+                    
+
+                }
+                
+            }
+            return mensaje;
         }
     }
 }

@@ -158,6 +158,7 @@ namespace AppWebTest.Controllers
                                     byte[] byteContra = Encoding.Default.GetBytes(oUsuraioCLS.contra);
                                     byte[] byteContraCifrado = sha.ComputeHash(byteContra);
                                     string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+                                    
                                     oUsuario.CONTRA = cadenaContraCifrada;
                                     oUsuario.TIPOUSUARIO = oUsuraioCLS.nombrePersonaEnviar.Substring(oUsuraioCLS.nombrePersonaEnviar.Length - 2, 1);
                                     oUsuario.IID = oUsuraioCLS.iid;

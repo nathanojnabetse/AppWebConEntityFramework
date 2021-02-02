@@ -78,10 +78,11 @@
                 <br>
 
                 <button class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit">Entrar</button>
-                <div class="opcioncontra"><a href="">Olvidaste tu contraseña?</a></div>
-            
+                <div class="opcioncontra"><a id="btnOlvideContra" data-toggle="modal" data-target="#staticBackdrop">Olvidaste tu contraseña?</a></div>
+
+
                 <div id="divRespuesta"></div>
-             }
+            }
 
             @*@if (Model != null && Model.mensajeError != null)
                 {
@@ -92,9 +93,56 @@
     </div>
 
 
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @*el metodo al que va, el controlador*@
+                @using (Ajax.BeginForm("RecuperarContra", "Login", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "Recuperar", @* el metodo de respuesta el del scriptde aqui*@
+                    UpdateTargetId = "error"
+                }))
+                {
+                    @Html.Hidden("titulo")
+                    <div class="modal-body">
+                        <div>
+                            @Html.Label("Indicar si es cliente o empleado")
+                           <select name="IIDTIPO" id="IIDTIPO">
+                               <option value="C">Cliente</option>
+                           </select>
+                        </div>
+                        <div>
+                            @Html.Label("Correo")
+                            @Html.TextBox("correo", null, new { @class = "form-control", @type="email"})
+                        </div>
+                        <div>
+                            @Html.Label("Telefono celular")
+                            @Html.TextBox("telefonoCelular", null, new { @class = "form-control", @type="number" })
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Understood</button>
+                    </div>
+
+                }
+                <div id="error"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 
 </html>
@@ -108,4 +156,17 @@
             alert("Usuario o contraseña incorrecta")
         }
     }
+
+    function Recuperar(rpta) {
+        if (rpta == "1") {
+            alert("Se envió la clave al correo");
+            document.getElementById("btnClose").click();
+        }
+        else {
+            alert("Ocurrió un error");
+        }
+
+            
+    } 
+
 </script>
