@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AppWebTest.Models;
+using AppWebTest.Filters;
 
 namespace AppWebTest.Controllers
 {
+    [Acceder]
     public class RolPaginaController : Controller
     {
         // GET: RolPagina
@@ -91,27 +93,46 @@ namespace AppWebTest.Controllers
                 {
                     using (var bd = new BDPasajeEntities())
                     {
+                        int cantidad = 0;
                         //agregar
                         if (titulo == -1)
                         {
-                            RolPagina oRolPagina = new RolPagina();
-                            oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
-                            oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
-                            oRolPagina.BHABILITADO = 1;
-                            bd.RolPagina.Add(oRolPagina);
-                            rpta = bd.SaveChanges().ToString();//numero de registros afectado
-                            if (rpta == "0")
-                            {
-                                rpta = "";
-                            }
+                            cantidad = bd.RolPagina.Where(p => p.IIDROL == oRolPaginaCLS.iidrol && p.IIDPAGINA == oRolPaginaCLS.iidpagina).Count();
 
+                            if(cantidad >= 1)
+                            {
+                                rpta = "-1";
+                            }
+                            else
+                            {
+                                RolPagina oRolPagina = new RolPagina();
+                                oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
+                                oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
+                                oRolPagina.BHABILITADO = 1;
+                                bd.RolPagina.Add(oRolPagina);
+                                rpta = bd.SaveChanges().ToString();//numero de registros afectado
+                                if (rpta == "0")
+                                {
+                                    rpta = "";
+                                }
+                            }
                         }
                         else
                         {
-                            RolPagina oRolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA == titulo).First();
-                            oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
-                            oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
-                            rpta = bd.SaveChanges().ToString();
+                            cantidad = bd.RolPagina.Where(p => p.IIDROL == oRolPaginaCLS.iidrol && p.IIDPAGINA == oRolPaginaCLS.iidpagina && p.IIDROLPAGINA != titulo).Count();
+
+                            if(cantidad >= 1)
+                            {
+                                rpta = "-1";
+                            }
+                            else
+                            {
+                                RolPagina oRolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA == titulo).First();
+                                oRolPagina.IIDROL = oRolPaginaCLS.iidrol;
+                                oRolPagina.IIDPAGINA = oRolPaginaCLS.iidpagina;
+                                rpta = bd.SaveChanges().ToString();
+                            }
+                            
                         }
                     }
                 }

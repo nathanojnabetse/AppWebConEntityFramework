@@ -139,49 +139,68 @@ namespace AppWebTest.Controllers
                 {
                     using (var bd = new BDPasajeEntities())
                     {
+                        int cantidad = 0;
                         using (var transaccion = new TransactionScope())
                         {
                             if (titulo == -1) //agregar
                             {
-                                Usuario oUsuario = new Usuario();
-                                oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
-                                // cifrado
-                                SHA256Managed sha = new SHA256Managed();
-                                byte[] byteContra = Encoding.Default.GetBytes(oUsuraioCLS.contra);
-                                byte[] byteContraCifrado = sha.ComputeHash(byteContra);
-                                string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
-                                oUsuario.CONTRA = cadenaContraCifrada;
-                                oUsuario.TIPOUSUARIO = oUsuraioCLS.nombrePersonaEnviar.Substring(oUsuraioCLS.nombrePersonaEnviar.Length - 2, 1);
-                                oUsuario.IID = oUsuraioCLS.iid;
-                                oUsuario.IIDROL = oUsuraioCLS.iidrol;
-                                oUsuario.bhabilitado = 1;
-                                bd.Usuario.Add(oUsuario);
-                                if (oUsuario.TIPOUSUARIO.Equals("C"))
+                                cantidad = bd.Usuario.Where(p => p.NOMBREUSUARIO == oUsuraioCLS.nombreusuario).Count();
+                                if (cantidad>=1)
                                 {
-                                    Cliente ocliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(oUsuraioCLS.iid)).First();
-                                    ocliente.bTieneUsuario = 1;
-
+                                    rpta = "-1";
                                 }
                                 else
                                 {
-                                    Empleado oEmpleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(oUsuraioCLS.iid)).First();
-                                    oEmpleado.bTieneUsuario = 1;
-                                }
-                                rpta = bd.SaveChanges().ToString();
-                                if (rpta == "0")
-                                {
-                                    rpta = "";
-                                }
-                                transaccion.Complete();
+                                    Usuario oUsuario = new Usuario();
+                                    oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
+                                    // cifrado
+                                    SHA256Managed sha = new SHA256Managed();
+                                    byte[] byteContra = Encoding.Default.GetBytes(oUsuraioCLS.contra);
+                                    byte[] byteContraCifrado = sha.ComputeHash(byteContra);
+                                    string cadenaContraCifrada = BitConverter.ToString(byteContraCifrado).Replace("-", "");
+                                    oUsuario.CONTRA = cadenaContraCifrada;
+                                    oUsuario.TIPOUSUARIO = oUsuraioCLS.nombrePersonaEnviar.Substring(oUsuraioCLS.nombrePersonaEnviar.Length - 2, 1);
+                                    oUsuario.IID = oUsuraioCLS.iid;
+                                    oUsuario.IIDROL = oUsuraioCLS.iidrol;
+                                    oUsuario.bhabilitado = 1;
+                                    bd.Usuario.Add(oUsuario);
+                                    if (oUsuario.TIPOUSUARIO.Equals("C"))
+                                    {
+                                        Cliente ocliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(oUsuraioCLS.iid)).First();
+                                        ocliente.bTieneUsuario = 1;
+
+                                    }
+                                    else
+                                    {
+                                        Empleado oEmpleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(oUsuraioCLS.iid)).First();
+                                        oEmpleado.bTieneUsuario = 1;
+                                    }
+                                    rpta = bd.SaveChanges().ToString();
+                                    if (rpta == "0")
+                                    {
+                                        rpta = "";
+                                    }
+                                    transaccion.Complete();
+                                }                                
                             }
                             else //Editar
                             {
-                                //pprimero recuperar buscar por id
-                                Usuario oUsuario = bd.Usuario.Where(p => p.IIDUSUARIO == titulo).First();
-                                oUsuario.IIDROL = oUsuraioCLS.iidrol;
-                                oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
-                                rpta = bd.SaveChanges().ToString();
-                                transaccion.Complete();
+                                cantidad = bd.Usuario.Where(p => p.NOMBREUSUARIO == oUsuraioCLS.nombreusuario && p.IIDUSUARIO!=titulo).Count();
+
+                                if(cantidad >= 1)
+                                {
+                                    rpta = "-1";
+                                }
+                                else
+                                {
+                                    //pprimero recuperar buscar por id
+                                    Usuario oUsuario = bd.Usuario.Where(p => p.IIDUSUARIO == titulo).First();
+                                    oUsuario.IIDROL = oUsuraioCLS.iidrol;
+                                    oUsuario.NOMBREUSUARIO = oUsuraioCLS.nombreusuario;
+                                    rpta = bd.SaveChanges().ToString();
+                                    transaccion.Complete();
+                                }
+                                
                             }
                         }
                     }

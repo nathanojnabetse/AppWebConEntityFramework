@@ -15,7 +15,8 @@
 {
     HttpMethod = "POST",
     UpdateTargetId = "divRolPagina",
-    InsertionMode = InsertionMode.Replace
+    InsertionMode = InsertionMode.Replace,
+    OnSuccess="Filtrar"
 }, new { @id = "frmFiltrado" }))
 {
     @Html.DropDownList("iidrolFiltro", listaRol, new { @class = "form-control" })
@@ -103,12 +104,18 @@
 
         }
         else {
-            alert("ocurrio un error")
+            if (rpta == "-1") {
+                alert("Ya existe en la base de datos")
+                document.getElementById("divRolPaginaError").innerHTML = "";
+            } else {
+                alert("ocurrio un error")
+            }
+            
         }
     }
 
     function Editar(idrolPagina) {
-        //Limpiar();
+        Limpiar();
         document.getElementById("titulo").value = idrolPagina;
         $.get("RolPagina/recuperarInformacion/?idRolPagina=" + idrolPagina, function (data) {
             document.getElementById("iidrol").value = data.iidrol
@@ -122,7 +129,7 @@
     function Limpiar() {
         var controles = document.getElementsByClassName("form-control");
         var control;
-        for (var i = 0; i <= controles.length; i++) {
+        for (var i = 0; i < controles.length; i++) {
             control = controles[i];
             control.value = "";
         }
@@ -134,7 +141,7 @@
 
     function EliminarRegistro() {
         var titulo = document.getElementById("titulo").value;
-        $.get("eliminarRolPagina/?iidrolpagina=" + titulo, function (data) {
+        $.get("RolPagina/eliminarRolPagina/?iidrolpagina=" + titulo, function (data) {
             if (data == 1) {
                 alert("Se ejecuto correctamente")
                 $("#frmFiltrado").trigger("submit");

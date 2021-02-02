@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AppWebTest.Models;
+using AppWebTest.Filters;
 
 namespace AppWebTest.Controllers
 {
+    [Acceder]
     public class PaginaController : Controller
     {
         // GET: Página
@@ -66,7 +68,7 @@ namespace AppWebTest.Controllers
 
         public string Guardar(PaginaCLS oPaginaCLS, int titulo)
         {
-            
+           
             //vacio error
             string rpta = "";//n de registros afectados
             try
@@ -87,28 +89,45 @@ namespace AppWebTest.Controllers
                 {
                     using (var bd = new BDPasajeEntities())
                     {
+                        int cantidad = 0;
                         if (titulo == -1)//agregar
                         {
-                            Pagina oPagina = new Pagina();
-                            oPagina.MENSAJE = oPaginaCLS.mensaje;
-                            oPagina.ACCION = oPaginaCLS.accion;
-                            oPagina.CONTROLADOR = oPaginaCLS.controlador;
-                            oPagina.BHABILITADO = 1;
-                            bd.Pagina.Add(oPagina);
-                            rpta = bd.SaveChanges().ToString();
-                            if (rpta == "0")
+                            cantidad = bd.Pagina.Where(p => p.MENSAJE == oPaginaCLS.mensaje).Count();
+                            if (cantidad >= 1)
                             {
-                                rpta = "";
+                                rpta = "-1";
                             }
-
+                            else
+                            {
+                                Pagina oPagina = new Pagina();
+                                oPagina.MENSAJE = oPaginaCLS.mensaje;
+                                oPagina.ACCION = oPaginaCLS.accion;
+                                oPagina.CONTROLADOR = oPaginaCLS.controlador;
+                                oPagina.BHABILITADO = 1;
+                                bd.Pagina.Add(oPagina);
+                                rpta = bd.SaveChanges().ToString();
+                                if (rpta == "0")
+                                {
+                                    rpta = "";
+                                }
+                            }
+                        
                         }
                         else//editar
                         {
-                            Pagina oPAgina = bd.Pagina.Where(p => p.IIDPAGINA == titulo).First();
-                            oPAgina.MENSAJE = oPaginaCLS.mensaje;
-                            oPaginaCLS.controlador = oPaginaCLS.controlador;
-                            oPaginaCLS.accion = oPaginaCLS.accion;
-                            rpta = bd.SaveChanges().ToString();
+                            cantidad = bd.Pagina.Where(p => p.MENSAJE == oPaginaCLS.mensaje && p.IIDPAGINA!=titulo).Count();
+                            if(cantidad >=1)
+                            {
+                                rpta = "-1";
+                            }
+                            else
+                            {
+                                Pagina oPAgina = bd.Pagina.Where(p => p.IIDPAGINA == titulo).First();
+                                oPAgina.MENSAJE = oPaginaCLS.mensaje;
+                                oPaginaCLS.controlador = oPaginaCLS.controlador;
+                                oPaginaCLS.accion = oPaginaCLS.accion;
+                                rpta = bd.SaveChanges().ToString();
+                            }                           
                         }
                     }
                 }

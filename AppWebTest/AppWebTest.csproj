@@ -145,14 +145,17 @@
     <Compile Include="Controllers\BusController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\PaginaController.cs" />
+    <Compile Include="Controllers\PantallaPrincipalController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\RolPaginaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TipoUsuarioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ViajeController.cs" />
+    <Compile Include="Filters\Acceder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -196,6 +199,7 @@
       <DependentUpon>BDPasajes.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MarcaCLS.cs" />
+    <Compile Include="Models\MenuCLS.cs" />
     <Compile Include="Models\Modelo.cs">
       <DependentUpon>BDPasajes.tt</DependentUpon>
     </Compile>
@@ -296,6 +300,8 @@
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\_TablaUsuario.cshtml" />
     <Content Include="Views\Viaje\_TablaViaje.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\PantallaPrincipal\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

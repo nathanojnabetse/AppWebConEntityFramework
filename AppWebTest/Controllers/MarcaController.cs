@@ -10,9 +10,11 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using AppWebTest.Filters;
 
 namespace AppWebTest.Controllers
 {
+    [Acceder]
     public class MarcaController : Controller
     {
         // GET: Marca

@@ -74,15 +74,15 @@
                 <div class="modal-body">
                     <div>
                         @Html.Label("Mensaje")
-                        @Html.TextBox("mensaje", null, new { @class = "form-control" })
+                        @Html.TextBox("mensaje", null, new { @class="form-control" })
                     </div>
                     <div>
                         @Html.Label("Acción")
-                        @Html.TextBox("accion", null, new { @class = "form-control" })
+                        @Html.TextBox("accion", null, new { @class="form-control" })
                     </div>
                     <div>
                         @Html.Label("Controlador")
-                        @Html.TextBox("controlador", null, new { @class = "form-control" })
+                        @Html.TextBox("controlador", null, new { @class="form-control" })
                     </div>
 
                 </div>
@@ -112,6 +112,7 @@
 
     function Agregar() {
         Limpiar();
+        console.log("AGREGAR");
         document.getElementById("titulo").value = "-1";
 
     }
@@ -124,7 +125,14 @@
 
         }
         else {
-            alert("ocurrio un error")
+            if (result == -1) {
+                alert("ya existe en al base de datos")
+                document.getElementById("divError").innerHTML = "";
+            }
+            else {
+                alert("ocurrio un error")
+            }
+            
         }
     }
 
@@ -142,9 +150,9 @@
     function Limpiar() {
         var controles = document.getElementsByClassName("form-control");
         var control;
-        for (var i = 0; i <= controles.length; i++) {
+        for (var i = 0; i < controles.length; i++) {
             control = controles[i];
-            control.value = " ";
+            control.value ="";
         }
     }
 
@@ -154,7 +162,7 @@
 
     function EliminarRegistro() {
         var iidpagina = document.getElementById("titulo").value;
-        $.get("eliminarPagina/?iidpagina=" + iidpagina, function (data) {
+        $.get("Pagina/eliminarPagina/?iidpagina=" + iidpagina, function (data) {
             if (data == 1) {//todo correcto
                 alert("Se ejecuto correctamente")
                 $("#frmFiltrado").trigger("submit");

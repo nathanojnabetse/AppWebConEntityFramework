@@ -137,7 +137,7 @@
     function Editar(id) {
         Limpiar();
         //document.getElementById("divError").innerHTML = "";
-        $.get("recuperarInformacion/?iidusuario=" + id, function (data) {
+        $.get("Usuario/recuperarInformacion/?iidusuario=" + id, function (data) {
             document.getElementById("nombreusuario").value = data.nombreusuario;
             document.getElementById("iidrol").value = data.iidrol;
             document.getElementById("contra").value = "1";
@@ -167,7 +167,14 @@
             document.getElementById("btnClose").click();
         }
         else {
-            alert("Ocurrio un error");
+            if (rpta == "-1") {
+                alert("Ya existe en la base de datos");
+                document.getElementById("divError").innerHTML = "";
+            }
+            else {
+                alert("Ocurrio un error");
+            }
+            
         }
 
     }
