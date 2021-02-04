@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AppWebTest.Models.ReservasRealizadaCLS>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>
+    Reservas realizadas
+</h2>
+
+<table class="table table-hover table-bordered" >
+    <tr>
+        <th>
+            ID Venta
+        </th>
+        <th>
+            Fecha venta
+        </th>
+        <th>
+            Total a pagar
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.iidventa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaVenta)
+        </td>        
+    </tr>
+}
+
+</table>

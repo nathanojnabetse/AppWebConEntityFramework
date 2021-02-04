@@ -22,5 +22,6 @@ namespace AppWebTest.Models
         public int bhabilitado { get; set; }
         //propiedad adicional
         public string mensajeFiltro { get; set; }
+
     }
 }

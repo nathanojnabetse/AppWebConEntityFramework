@@ -54,6 +54,7 @@
     <Property Name="IIDBUS" Type="int" />
     <Property Name="PRECIO" Type="decimal" Precision="18" Scale="2" />
     <Property Name="BHABILITADO" Type="int" />
+    <Property Name="cantidad" Type="int" />
   </EntityType>
   <EntityType Name="Empleado">
     <Key>
@@ -207,7 +208,7 @@
       <PropertyRef Name="IIDVENTA" />
     </Key>
     <Property Name="IIDVENTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="IIDCLIENTE" Type="int" />
+    <Property Name="IIDUSUARIO" Type="int" />
     <Property Name="TOTAL" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FECHAVENTA" Type="datetime" />
     <Property Name="BHABILITADO" Type="int" />
@@ -443,15 +444,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__VENTA__IIDCLIENT__6754599E">
-    <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+  <Association Name="FK__VENTA__IIDUSUARI__2739D489">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
     <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Cliente">
-        <PropertyRef Name="IIDCLIENTE" />
+      <Principal Role="Usuario">
+        <PropertyRef Name="IIDUSUARIO" />
       </Principal>
       <Dependent Role="VENTA">
-        <PropertyRef Name="IIDCLIENTE" />
+        <PropertyRef Name="IIDUSUARIO" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -585,8 +586,8 @@
       <End Role="TIPOUSUARIOREGISTRO" EntitySet="TIPOUSUARIOREGISTRO" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
-    <AssociationSet Name="FK__VENTA__IIDCLIENT__6754599E" Association="Self.FK__VENTA__IIDCLIENT__6754599E">
-      <End Role="Cliente" EntitySet="Cliente" />
+    <AssociationSet Name="FK__VENTA__IIDUSUARI__2739D489" Association="Self.FK__VENTA__IIDUSUARI__2739D489">
+      <End Role="Usuario" EntitySet="Usuario" />
       <End Role="VENTA" EntitySet="VENTA" />
     </AssociationSet>
     <AssociationSet Name="FK__Viaje__IIDBUS__3C69FB99" Association="Self.FK__Viaje__IIDBUS__3C69FB99">

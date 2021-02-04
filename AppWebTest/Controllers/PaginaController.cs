@@ -124,8 +124,8 @@ namespace AppWebTest.Controllers
                             {
                                 Pagina oPAgina = bd.Pagina.Where(p => p.IIDPAGINA == titulo).First();
                                 oPAgina.MENSAJE = oPaginaCLS.mensaje;
-                                oPaginaCLS.controlador = oPaginaCLS.controlador;
-                                oPaginaCLS.accion = oPaginaCLS.accion;
+                                oPAgina.CONTROLADOR = oPaginaCLS.controlador;
+                                oPAgina.ACCION = oPaginaCLS.accion;
                                 rpta = bd.SaveChanges().ToString();
                             }                           
                         }

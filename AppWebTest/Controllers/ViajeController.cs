@@ -230,8 +230,10 @@ namespace AppWebTest.Controllers
                 oViajeCLS.precio = (decimal)oViaje.PRECIO;
                 //año-mes-dia pide
                 //bd (dd-mm-yy)
+                //el comenado es el original, en index solo dat y no datetime-lock
+                //oViajeCLS.fechaViajeCadena = ((DateTime)oViaje.FECHAVIAJE).ToString("yyyy-MM-dd");
 
-                oViajeCLS.fechaViajeCadena = ((DateTime)oViaje.FECHAVIAJE).ToString("yyyy-MM-dd");
+                oViajeCLS.fechaViajeCadena = oViaje.FECHAVIAJE!=null ? ((DateTime)oViaje.FECHAVIAJE).ToString("yyyy-MM-ddTHH:mm"):"";
                 oViajeCLS.numeroAsientosDisponibles = (int)oViaje.NUMEROASIENTOSDISPONIBLES;
                 oViajeCLS.nombreFoto = oViaje.nombrefoto;
                 oViajeCLS.extension = Path.GetExtension(oViaje.nombrefoto);

@@ -131,12 +131,12 @@ namespace AppWebTest.Controllers
                         Usuario ousuario = bd.Usuario.Where(p => p.IID == iidcliente && p.TIPOUSUARIO == "C").First();
                         //Modificar su clave
                         Random ra = new Random();
-                        int n1 = ra.Next(0,9);
+                        int n1 = ra.Next(0, 9);
                         int n2 = ra.Next(0, 9);
                         int n3 = ra.Next(0, 9);
                         int n4 = ra.Next(0, 9);
 
-                        string nuevaContra = (n1 + n2 + n3 + n4).ToString();
+                        string nuevaContra = n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString();
                         //cifrar clave
                         SHA256Managed sha = new SHA256Managed();
                         byte[] byteContra = Encoding.Default.GetBytes(nuevaContra);

@@ -4,248 +4,249 @@
     <EntitySetMapping Name="Asiento">
       <EntityTypeMapping TypeName="BDPasajeModel.Asiento">
         <MappingFragment StoreEntitySet="Asiento">
-          <ScalarProperty Name="IIDASIENTO" ColumnName="IIDASIENTO" />
-          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
-          <ScalarProperty Name="INDICEFILA" ColumnName="INDICEFILA" />
-          <ScalarProperty Name="INDICECOLUMNA" ColumnName="INDICECOLUMNA" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="INDICECOLUMNA" ColumnName="INDICECOLUMNA" />
+          <ScalarProperty Name="INDICEFILA" ColumnName="INDICEFILA" />
+          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
+          <ScalarProperty Name="IIDASIENTO" ColumnName="IIDASIENTO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Bus">
       <EntityTypeMapping TypeName="BDPasajeModel.Bus">
         <MappingFragment StoreEntitySet="Bus">
-          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
-          <ScalarProperty Name="IIDSUCURSAL" ColumnName="IIDSUCURSAL" />
-          <ScalarProperty Name="IIDTIPOBUS" ColumnName="IIDTIPOBUS" />
-          <ScalarProperty Name="PLACA" ColumnName="PLACA" />
-          <ScalarProperty Name="FECHACOMPRA" ColumnName="FECHACOMPRA" />
-          <ScalarProperty Name="IIDMODELO" ColumnName="IIDMODELO" />
-          <ScalarProperty Name="NUMEROFILAS" ColumnName="NUMEROFILAS" />
-          <ScalarProperty Name="NUMEROCOLUMNAS" ColumnName="NUMEROCOLUMNAS" />
-          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-          <ScalarProperty Name="OBSERVACION" ColumnName="OBSERVACION" />
           <ScalarProperty Name="IIDMARCA" ColumnName="IIDMARCA" />
+          <ScalarProperty Name="OBSERVACION" ColumnName="OBSERVACION" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="NUMEROCOLUMNAS" ColumnName="NUMEROCOLUMNAS" />
+          <ScalarProperty Name="NUMEROFILAS" ColumnName="NUMEROFILAS" />
+          <ScalarProperty Name="IIDMODELO" ColumnName="IIDMODELO" />
+          <ScalarProperty Name="FECHACOMPRA" ColumnName="FECHACOMPRA" />
+          <ScalarProperty Name="PLACA" ColumnName="PLACA" />
+          <ScalarProperty Name="IIDTIPOBUS" ColumnName="IIDTIPOBUS" />
+          <ScalarProperty Name="IIDSUCURSAL" ColumnName="IIDSUCURSAL" />
+          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Cliente">
       <EntityTypeMapping TypeName="BDPasajeModel.Cliente">
         <MappingFragment StoreEntitySet="Cliente">
-          <ScalarProperty Name="IIDCLIENTE" ColumnName="IIDCLIENTE" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="APPATERNO" ColumnName="APPATERNO" />
-          <ScalarProperty Name="APMATERNO" ColumnName="APMATERNO" />
-          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
-          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
-          <ScalarProperty Name="TELEFONOFIJO" ColumnName="TELEFONOFIJO" />
-          <ScalarProperty Name="TELEFONOCELULAR" ColumnName="TELEFONOCELULAR" />
-          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
-          <ScalarProperty Name="bTieneUsuario" ColumnName="bTieneUsuario" />
           <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
+          <ScalarProperty Name="bTieneUsuario" ColumnName="bTieneUsuario" />
+          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="TELEFONOCELULAR" ColumnName="TELEFONOCELULAR" />
+          <ScalarProperty Name="TELEFONOFIJO" ColumnName="TELEFONOFIJO" />
+          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+          <ScalarProperty Name="APMATERNO" ColumnName="APMATERNO" />
+          <ScalarProperty Name="APPATERNO" ColumnName="APPATERNO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDCLIENTE" ColumnName="IIDCLIENTE" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="DETALLEVENTA">
       <EntityTypeMapping TypeName="BDPasajeModel.DETALLEVENTA">
         <MappingFragment StoreEntitySet="DETALLEVENTA">
-          <ScalarProperty Name="IIDETALLEVENTA" ColumnName="IIDETALLEVENTA" />
-          <ScalarProperty Name="IIDVENTA" ColumnName="IIDVENTA" />
-          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
-          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
-          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+          <ScalarProperty Name="cantidad" ColumnName="cantidad" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
+          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
+          <ScalarProperty Name="IIDVENTA" ColumnName="IIDVENTA" />
+          <ScalarProperty Name="IIDETALLEVENTA" ColumnName="IIDETALLEVENTA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Empleado">
       <EntityTypeMapping TypeName="BDPasajeModel.Empleado">
         <MappingFragment StoreEntitySet="Empleado">
-          <ScalarProperty Name="IIDEMPLEADO" ColumnName="IIDEMPLEADO" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="APPATERNO" ColumnName="APPATERNO" />
-          <ScalarProperty Name="APMATERNO" ColumnName="APMATERNO" />
-          <ScalarProperty Name="FECHACONTRATO" ColumnName="FECHACONTRATO" />
-          <ScalarProperty Name="SUELDO" ColumnName="SUELDO" />
-          <ScalarProperty Name="IIDTIPOUSUARIO" ColumnName="IIDTIPOUSUARIO" />
-          <ScalarProperty Name="IIDTIPOCONTRATO" ColumnName="IIDTIPOCONTRATO" />
-          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
-          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
-          <ScalarProperty Name="bTieneUsuario" ColumnName="bTieneUsuario" />
           <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
+          <ScalarProperty Name="bTieneUsuario" ColumnName="bTieneUsuario" />
+          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
+          <ScalarProperty Name="IIDTIPOCONTRATO" ColumnName="IIDTIPOCONTRATO" />
+          <ScalarProperty Name="IIDTIPOUSUARIO" ColumnName="IIDTIPOUSUARIO" />
+          <ScalarProperty Name="SUELDO" ColumnName="SUELDO" />
+          <ScalarProperty Name="FECHACONTRATO" ColumnName="FECHACONTRATO" />
+          <ScalarProperty Name="APMATERNO" ColumnName="APMATERNO" />
+          <ScalarProperty Name="APPATERNO" ColumnName="APPATERNO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDEMPLEADO" ColumnName="IIDEMPLEADO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Lugar">
       <EntityTypeMapping TypeName="BDPasajeModel.Lugar">
         <MappingFragment StoreEntitySet="Lugar">
-          <ScalarProperty Name="IIDLUGAR" ColumnName="IIDLUGAR" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDLUGAR" ColumnName="IIDLUGAR" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Marca">
       <EntityTypeMapping TypeName="BDPasajeModel.Marca">
         <MappingFragment StoreEntitySet="Marca">
-          <ScalarProperty Name="IIDMARCA" ColumnName="IIDMARCA" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDMARCA" ColumnName="IIDMARCA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Modelo">
       <EntityTypeMapping TypeName="BDPasajeModel.Modelo">
         <MappingFragment StoreEntitySet="Modelo">
-          <ScalarProperty Name="IIDMODELO" ColumnName="IIDMODELO" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDMODELO" ColumnName="IIDMODELO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Pagina">
       <EntityTypeMapping TypeName="BDPasajeModel.Pagina">
         <MappingFragment StoreEntitySet="Pagina">
-          <ScalarProperty Name="IIDPAGINA" ColumnName="IIDPAGINA" />
-          <ScalarProperty Name="MENSAJE" ColumnName="MENSAJE" />
-          <ScalarProperty Name="ACCION" ColumnName="ACCION" />
-          <ScalarProperty Name="CONTROLADOR" ColumnName="CONTROLADOR" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="CONTROLADOR" ColumnName="CONTROLADOR" />
+          <ScalarProperty Name="ACCION" ColumnName="ACCION" />
+          <ScalarProperty Name="MENSAJE" ColumnName="MENSAJE" />
+          <ScalarProperty Name="IIDPAGINA" ColumnName="IIDPAGINA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Rol">
       <EntityTypeMapping TypeName="BDPasajeModel.Rol">
         <MappingFragment StoreEntitySet="Rol">
-          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="RolPagina">
       <EntityTypeMapping TypeName="BDPasajeModel.RolPagina">
         <MappingFragment StoreEntitySet="RolPagina">
-          <ScalarProperty Name="IIDROLPAGINA" ColumnName="IIDROLPAGINA" />
-          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
-          <ScalarProperty Name="IIDPAGINA" ColumnName="IIDPAGINA" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="IIDPAGINA" ColumnName="IIDPAGINA" />
+          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
+          <ScalarProperty Name="IIDROLPAGINA" ColumnName="IIDROLPAGINA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Sexo">
       <EntityTypeMapping TypeName="BDPasajeModel.Sexo">
         <MappingFragment StoreEntitySet="Sexo">
-          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDSEXO" ColumnName="IIDSEXO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Sucursal">
       <EntityTypeMapping TypeName="BDPasajeModel.Sucursal">
         <MappingFragment StoreEntitySet="Sucursal">
-          <ScalarProperty Name="IIDSUCURSAL" ColumnName="IIDSUCURSAL" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
-          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
-          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-          <ScalarProperty Name="FECHAAPERTURA" ColumnName="FECHAAPERTURA" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="FECHAAPERTURA" ColumnName="FECHAAPERTURA" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDSUCURSAL" ColumnName="IIDSUCURSAL" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="BDPasajeModel.sysdiagrams">
         <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="TipoBus">
       <EntityTypeMapping TypeName="BDPasajeModel.TipoBus">
         <MappingFragment StoreEntitySet="TipoBus">
-          <ScalarProperty Name="IIDTIPOBUS" ColumnName="IIDTIPOBUS" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDTIPOBUS" ColumnName="IIDTIPOBUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="TipoContrato">
       <EntityTypeMapping TypeName="BDPasajeModel.TipoContrato">
         <MappingFragment StoreEntitySet="TipoContrato">
-          <ScalarProperty Name="IIDTIPOCONTRATO" ColumnName="IIDTIPOCONTRATO" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDTIPOCONTRATO" ColumnName="IIDTIPOCONTRATO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="TipoUsuario">
       <EntityTypeMapping TypeName="BDPasajeModel.TipoUsuario">
         <MappingFragment StoreEntitySet="TipoUsuario">
-          <ScalarProperty Name="IIDTIPOUSUARIO" ColumnName="IIDTIPOUSUARIO" />
-          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
           <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="IIDTIPOUSUARIO" ColumnName="IIDTIPOUSUARIO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="TIPOUSUARIOREGISTRO">
       <EntityTypeMapping TypeName="BDPasajeModel.TIPOUSUARIOREGISTRO">
         <MappingFragment StoreEntitySet="TIPOUSUARIOREGISTRO">
-          <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
           <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="BDPasajeModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
-          <ScalarProperty Name="IIDUSUARIO" ColumnName="IIDUSUARIO" />
-          <ScalarProperty Name="NOMBREUSUARIO" ColumnName="NOMBREUSUARIO" />
-          <ScalarProperty Name="CONTRA" ColumnName="CONTRA" />
-          <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
-          <ScalarProperty Name="IID" ColumnName="IID" />
-          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
           <ScalarProperty Name="bhabilitado" ColumnName="bhabilitado" />
+          <ScalarProperty Name="IIDROL" ColumnName="IIDROL" />
+          <ScalarProperty Name="IID" ColumnName="IID" />
+          <ScalarProperty Name="TIPOUSUARIO" ColumnName="TIPOUSUARIO" />
+          <ScalarProperty Name="CONTRA" ColumnName="CONTRA" />
+          <ScalarProperty Name="NOMBREUSUARIO" ColumnName="NOMBREUSUARIO" />
+          <ScalarProperty Name="IIDUSUARIO" ColumnName="IIDUSUARIO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="VENTA">
       <EntityTypeMapping TypeName="BDPasajeModel.VENTA">
         <MappingFragment StoreEntitySet="VENTA">
-          <ScalarProperty Name="IIDVENTA" ColumnName="IIDVENTA" />
-          <ScalarProperty Name="IIDCLIENTE" ColumnName="IIDCLIENTE" />
-          <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
-          <ScalarProperty Name="FECHAVENTA" ColumnName="FECHAVENTA" />
           <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="FECHAVENTA" ColumnName="FECHAVENTA" />
+          <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+          <ScalarProperty Name="IIDUSUARIO" ColumnName="IIDUSUARIO" />
+          <ScalarProperty Name="IIDVENTA" ColumnName="IIDVENTA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Viaje">
       <EntityTypeMapping TypeName="BDPasajeModel.Viaje">
         <MappingFragment StoreEntitySet="Viaje">
-          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
-          <ScalarProperty Name="IIDLUGARORIGEN" ColumnName="IIDLUGARORIGEN" />
-          <ScalarProperty Name="IIDLUGARDESTINO" ColumnName="IIDLUGARDESTINO" />
-          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
-          <ScalarProperty Name="FECHAVIAJE" ColumnName="FECHAVIAJE" />
-          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
-          <ScalarProperty Name="NUMEROASIENTOSDISPONIBLES" ColumnName="NUMEROASIENTOSDISPONIBLES" />
-          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
-          <ScalarProperty Name="FOTO" ColumnName="FOTO" />
           <ScalarProperty Name="nombrefoto" ColumnName="nombrefoto" />
+          <ScalarProperty Name="FOTO" ColumnName="FOTO" />
+          <ScalarProperty Name="BHABILITADO" ColumnName="BHABILITADO" />
+          <ScalarProperty Name="NUMEROASIENTOSDISPONIBLES" ColumnName="NUMEROASIENTOSDISPONIBLES" />
+          <ScalarProperty Name="IIDBUS" ColumnName="IIDBUS" />
+          <ScalarProperty Name="FECHAVIAJE" ColumnName="FECHAVIAJE" />
+          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+          <ScalarProperty Name="IIDLUGARDESTINO" ColumnName="IIDLUGARDESTINO" />
+          <ScalarProperty Name="IIDLUGARORIGEN" ColumnName="IIDLUGARORIGEN" />
+          <ScalarProperty Name="IIDVIAJE" ColumnName="IIDVIAJE" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
