@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="36eb7bad8bfa4277ba11008038b16375" Name="Diagram1">
+      <Diagram DiagramId="36eb7bad8bfa4277ba11008038b16375" Name="Diagram1" ZoomLevel="88" DisplayType="true">
         <EntityTypeShape EntityType="BDPasajeModel.Asiento" Width="1.5" PointX="7.5" PointY="9.75" />
         <EntityTypeShape EntityType="BDPasajeModel.Bus" Width="1.5" PointX="3" PointY="4.625" />
         <EntityTypeShape EntityType="BDPasajeModel.Cliente" Width="1.5" PointX="6" PointY="20" />
         <EntityTypeShape EntityType="BDPasajeModel.DETALLEVENTA" Width="1.5" PointX="7.5" PointY="5.375" />
-        <EntityTypeShape EntityType="BDPasajeModel.Empleado" Width="1.5" PointX="3" PointY="19.75" />
-        <EntityTypeShape EntityType="BDPasajeModel.Lugar" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="BDPasajeModel.Empleado" Width="2.125" PointX="3" PointY="19.75" />
+        <EntityTypeShape EntityType="BDPasajeModel.Lugar" Width="2.375" PointX="5" PointY="1.125" />
         <EntityTypeShape EntityType="BDPasajeModel.Marca" Width="1.5" PointX="0.75" PointY="5.875" />
         <EntityTypeShape EntityType="BDPasajeModel.Modelo" Width="1.5" PointX="0.75" PointY="9.125" />
         <EntityTypeShape EntityType="BDPasajeModel.Pagina" Width="1.5" PointX="0.75" PointY="26.875" />
@@ -22,10 +22,10 @@
         <EntityTypeShape EntityType="BDPasajeModel.TipoBus" Width="1.5" PointX="0.75" PointY="11.875" />
         <EntityTypeShape EntityType="BDPasajeModel.TipoContrato" Width="1.5" PointX="0.75" PointY="23.25" />
         <EntityTypeShape EntityType="BDPasajeModel.TipoUsuario" Width="1.5" PointX="0.75" PointY="20.625" />
-        <EntityTypeShape EntityType="BDPasajeModel.TIPOUSUARIOREGISTRO" Width="1.5" PointX="0.75" PointY="17.875" />
-        <EntityTypeShape EntityType="BDPasajeModel.Usuario" Width="1.5" PointX="3" PointY="15.875" />
+        <EntityTypeShape EntityType="BDPasajeModel.TIPOUSUARIOREGISTRO" Width="2" PointX="0.5" PointY="17.875" />
+        <EntityTypeShape EntityType="BDPasajeModel.Usuario" Width="2" PointX="3" PointY="15.875" />
         <EntityTypeShape EntityType="BDPasajeModel.VENTA" Width="1.5" PointX="5.25" PointY="16.25" />
-        <EntityTypeShape EntityType="BDPasajeModel.Viaje" Width="1.5" PointX="5.25" PointY="4.875" />
+        <EntityTypeShape EntityType="BDPasajeModel.Viaje" Width="2.125" PointX="4.875" PointY="4.875" />
         <AssociationConnector Association="BDPasajeModel.FK__Asiento__IIDVIAJ__412EB0B6" />
         <AssociationConnector Association="BDPasajeModel.FK__Bus__IIDMARCA__36B12243" />
         <AssociationConnector Association="BDPasajeModel.FK__Bus__IIDMODELO__276EDEB3" />

@@ -289,7 +289,7 @@ namespace AppWebTest.Controllers
                                                            where usuario.bhabilitado == 1
                                                            &&(cliente.NOMBRE.Contains(nombrepersona)
                                                            || cliente.APPATERNO.Contains(nombrepersona)
-                                                           || cliente.APPATERNO.Contains(nombrepersona))
+                                                           || cliente.APMATERNO.Contains(nombrepersona))
                                                            && usuario.TIPOUSUARIO == "C"
                                                            select new UsuarioCLS
                                                            {
@@ -310,7 +310,7 @@ namespace AppWebTest.Controllers
                                                              && usuario.TIPOUSUARIO == "E"
                                                              && (empleado.NOMBRE.Contains(nombrepersona)
                                                              || empleado.APPATERNO.Contains(nombrepersona)
-                                                             || empleado.APPATERNO.Contains(nombrepersona))
+                                                             || empleado.APMATERNO.Contains(nombrepersona))
                                                              select new UsuarioCLS
                                                              {
                                                                  iidusuario = usuario.IIDUSUARIO,
